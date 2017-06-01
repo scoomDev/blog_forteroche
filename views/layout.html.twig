@@ -9,9 +9,11 @@
     <!-- Boostrap Twitter CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- personnal CSS -->
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/fa/css/font-awesome.min.css">
 
-    <title>Allez simple pour l'Alaska</title>
+    <title>Billet simple pour l'Alaska</title>
 </head>
 
 <body>
@@ -23,23 +25,37 @@
 
         <div class="collapse navbar-collapse right" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Actualités</a>
+                <li class="nav-item">
+                    <a class="nav-link {{ 'url' == '/' ? 'active' : '' }}" href="/">Actualités</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Chapitres</a>
+                    <a class="nav-link {{ 'url' == '/articles' ? 'active' : '' }} " href="/articles">Articles</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">A propos</a>
+                    <a class="nav-link {{ 'url' == '/chapters' ? 'active' : '' }}" href="/chapters">Chapitres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/test">A propos</a>
                 </li>
             </ul>
-            <span class="navbar-text">Un allez simple pour l'Alaska</span>
+            <span class="navbar-text">Billet simple pour l'Alaska</span>
         </div>
     </nav>
     <div class="container">
-        <h1>Allez simple pour l'Alaska</h1>
-        <hr> {% block content %} {% endblock content %}
+        {% block content %} {% endblock content %}
     </div>
+
+    <footer>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="footer_admin">
+            <p><i class="fa fa-user" aria-hidden="true"></i> Bonjour, {{ app.user.username }}</p>
+            <a href="{{ path('logout') }}">Se déconnecter</a>
+        </div>
+        {% else %}
+        <div class="footer_admin">
+            <a href="{{ path('login') }}"><i class="fa fa-user-o" aria-hidden="true"></i> Se connecter à l'administration</a> {% endif %}
+        </div>
+    </footer>
 
     <!-- Bootsrap Twitter JS -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

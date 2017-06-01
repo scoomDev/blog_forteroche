@@ -1,3 +1,38 @@
 body {
     padding-top: 75px;
 }
+
+.nav-link.active {
+    position: relative;
+}
+
+.nav-link.active::after {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -.3rem;
+    vertical-align: middle;
+    content: "";
+    border-right: .5rem solid transparent;
+    border-bottom: .5rem solid;
+    border-left: .5rem solid transparent;
+}
+
+footer {
+    height: auto;
+    margin-top: 50px;
+    background-color: #292b2c;
+    text-align: center;
+}
+
+.footer_admin {
+    padding: 10px;
+}
+
+.footer_admin p,
+.footer_admin a {
+    color: whitesmoke;
+    margin: 0;
+}
