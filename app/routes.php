@@ -16,7 +16,8 @@ $app->get('/articles', function() use($app) {
 // Access to an article
 $app->get('/article/{id}', function($id) use($app) {
     $article = $app['dao.article']->find($id);
-    return $app['twig']->render('single.html.twig', array('article' => $article));
+    $comments = $app['dao.comment']->findAllByArticle($id);
+    return $app['twig']->render('single.html.twig', array('article' => $article, 'comments' => $comments));
 })->bind('article');
 
 // Access to chapters

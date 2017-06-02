@@ -35,6 +35,11 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 $app['dao.article'] = function($app) {
     return new forteroche\DAO\ArticleDAO($app['db']);
 };
+$app['dao.comment'] = function($app) {
+    $commentDAO = new forteroche\DAO\CommentDAO($app['db']);
+    $commentDAO->setArticleDAO($app['dao.article']);
+    return $commentDAO;
+};
 $app['dao.user'] = function($app) {
     return new forteroche\DAO\UserDAO($app['db']);
 };
