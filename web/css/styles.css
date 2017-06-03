@@ -2,6 +2,14 @@ body {
     padding-top: 75px;
 }
 
+.container h3 {
+    margin-top: 25px;
+}
+
+.nav li {
+    list-style: none;
+}
+
 .nav-link.active {
     position: relative;
 }
@@ -18,6 +26,18 @@ body {
     border-right: .5rem solid transparent;
     border-bottom: .5rem solid;
     border-left: .5rem solid transparent;
+}
+
+.dropdown-toggle {
+    color: rgba(255, 255, 255, .5);
+}
+
+.dropdown-toggle:hover {
+    color: rgba(255, 255, 255, .7);
+}
+
+.dropdown-toggle:focus {
+    color: rgba(255, 255, 255, .7);
 }
 
 footer {

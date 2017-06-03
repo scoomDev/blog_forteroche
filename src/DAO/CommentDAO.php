@@ -43,4 +43,20 @@ class CommentDAO extends DAO {
         return $comment;
     }
 
+    public function save(Comment $comment) {
+        $commentData = array(
+            'art_id' => $comment->getArticle()->getId(),
+            'com_author' => $comment->getAuthor(),
+            'com_content' => $comment->getContent()
+        );
+
+        if($comment->getId()) {
+            $this->getDb()->update('jf_comments', $commentData, array('com_id' => $comment->getId()));
+        } else {
+            $this->getDb()->insert('jf_comments', $commentData);
+            $id = $this->getDb()->lastInsertId();
+            $comment->setId($id);
+        }
+    }
+
 }

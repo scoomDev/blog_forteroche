@@ -13,7 +13,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/css/fa/css/font-awesome.min.css">
 
-    <title>Billet simple pour l'Alaska</title>
+    <title>Billet simple pour l'Alaska - {% block title %} {% endblock title %} </title>
 </head>
 
 <body>
@@ -21,24 +21,33 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-        <h1 class="navbar-brand mb-0">Jean Forteroche</h1>
+        <h1 class="navbar-brand mb-0">Billet simple pour l'Alaska</h1>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ 'url' == '/' ? 'active' : '' }}" href="/">Actualités</a>
+                    <a class="nav-link {{ 'url' == '/' ? 'active' : '' }}" href="/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Actualités</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ 'url' == '/articles' ? 'active' : '' }} " href="/articles">Articles</a>
+                    <a class="nav-link {{ 'url' == '/articles' ? 'active' : '' }} " href="{{ path('articles') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Articles</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ 'url' == '/chapters' ? 'active' : '' }}" href="/chapters">Chapitres</a>
+                    <a class="nav-link {{ 'url' == '/chapters' ? 'active' : '' }}" href="{{ path('chapters') }}"><i class="fa fa-book" aria-hidden="true"></i> Chapitres</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/test">A propos</a>
+                    <a class="nav-link" href="#"><i class="fa fa-question" aria-hidden="true"></i> A propos</a>
                 </li>
             </ul>
-            <span class="navbar-text">Billet simple pour l'Alaska</span>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user" aria-hidden="true"></i> Bonjour, {{ app.user.username }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{{ path('logout') }}">Se déconnecter</a>
+                </div>
+            </li>
+            {% endif %}
         </div>
     </nav>
     <div class="container">
@@ -46,10 +55,10 @@
     </div>
 
     <footer>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="footer_admin">
-            <p><i class="fa fa-user" aria-hidden="true"></i> Bonjour, {{ app.user.username }}</p>
-            <a href="{{ path('logout') }}">Se déconnecter</a>
+            <p>Copyright Jean Forteroche 2017</p>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <p>Vous êtes connecté à l'administration.</p>
         </div>
         {% else %}
         <div class="footer_admin">

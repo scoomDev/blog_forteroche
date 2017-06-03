@@ -1,7 +1,10 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use forteroche\Domain\Comment;
+use forteroche\Form\Type\CommentType;
 
+// Home page
 $app->get('/', function() use($app) {
     $url = $_SERVER['REQUEST_URI'];
     return $app['twig']->render('index.html.twig', array('url' => $url));
@@ -14,10 +17,20 @@ $app->get('/articles', function() use($app) {
 })->bind('articles');
 
 // Access to an article
-$app->get('/article/{id}', function($id) use($app) {
+$app->match('/article/{id}', function($id, Request $request) use($app) {
     $article = $app['dao.article']->find($id);
+    $commentFormView = null;
+    $comment = new Comment();
+    $comment->setArticle($article);
+    $commentForm = $app['form.factory']->create(CommentType::class, $comment);
+    $commentForm->handleRequest($request);
+    if($commentForm->isSubmitted() && $commentForm->isValid()) {
+        $app['dao.comment']->save($comment);
+        $app['session']->getFlashBag()->add('success', 'Votre commentaire à bien été pris en compte');
+    }
+    $commentFormView = $commentForm->createView();
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('single.html.twig', array('article' => $article, 'comments' => $comments));
+    return $app['twig']->render('single.html.twig', array('article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView));
 })->bind('article');
 
 // Access to chapters
