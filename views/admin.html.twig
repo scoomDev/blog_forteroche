@@ -1,0 +1,130 @@
+{% extends "layout.html.twig" %}
+{% set adminMenu = true %}
+
+{% block title %}Administration{% endblock %}
+{% block content %}
+    <h2 class="text-center">{{ block('title') }}</h2>
+    <hr>
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#articles" data-toggle="tab" role="tab" aria-controls="articles">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#comments" data-toggle="tab" role="tab" aria-controls="comments">Commentaires</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade show active adminTable" id="articles" role="tabpanel">
+            {% if articles %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Contenu</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for article in articles %}
+                            <tr>
+                                <td><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
+                                <td>{{ article.content | truncate(60) }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" href="{{ path('admin_article_edit', { 'id': article.id }) }}" title="Editer">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </a>
+                                    <button class="btn btn-danger btn-xs" type="button" title="Supprimer" data-toggle="modal" data-target="#articleDialog{{ article.id }}">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <div id="articleDialog{{ article.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Veuillez confirmer</h4>
+                                                </div>  <!-- modal header -->
+                                                <div class="modal-body">
+                                                    Voulez-vous vraiment supprimer cet article ?
+                                                </div>  <!-- modal body -->
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                                    <a href="{{ path('admin_article_delete', {'id': article.id}) }}" class="btn btn-danger">Supprimer</a>
+                                                </div> <!-- modal footer -->
+                                            </div> <!-- modal content -->
+                                        </div>  <!-- modal dialog -->
+                                    </div>  <!-- modal -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    Aucun article trouvé.
+                </div>
+            {% endif %}
+            <a href="{{ path('admin_article_add') }}">
+                <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter un article</button>
+            </a>
+        </div> 
+        <div class="tab-pane fade adminTable" id="comments" role="tabpanel">
+            {% if comments %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Article</th>
+                                <th>Auteur</th>
+                                <th>Contenu</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for comment in comments %}
+                            <tr>
+                                <td><a class="articleTitle" href="{{ path('article', { 'id': comment.article.id }) }}">{{ comment.article.title }}</a></td>
+                                <td>{{ comment.author }}</td>
+                                <td>{{ comment.content | truncate(60) }}</td>
+                                <td>
+                                    <a href="{{ path('admin_comment_edit', { 'id': comment.id }) }}" class="btn btn-info btn-xs" title="Editer"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    <button class="btn btn-danger btn-xs" type="button" title="Supprimer" data-toggle="modal" data-target="#commentDialog{{ comment.id }}">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <div id="commentDialog{{ comment.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modale-title" id="myModalLabel">Veuillez confirmer</h4>
+                                                </div> <!-- Modal header -->
+                                                <div class="modal-body">
+                                                    Voulez vous vraiment supprimer ce commentaire ?
+                                                </div> <!-- Modal body -->
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                                    <a href="{{ path('admin_comment_delete', { 'id': comment.id }) }}" class="btn btn-danger">Confirmer</a>
+                                                </div> <!-- Modal footer -->
+                                            </div> <!-- Modal content -->
+                                        </div> <!-- Modal dialog -->
+                                    </div> <!-- Modal -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    Aucun commentaires trouvés.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

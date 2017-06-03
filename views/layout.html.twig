@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Boostrap Twitter CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
     <!-- personnal CSS -->
     <link rel="stylesheet" href="/css/styles.css">
     <!-- Font Awesome -->
@@ -18,7 +19,8 @@
 
 <body>
     <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
         <h1 class="navbar-brand mb-0">Billet simple pour l'Alaska</h1>
@@ -26,25 +28,26 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ 'url' == '/' ? 'active' : '' }}" href="/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Actualités</a>
+                    <a class="nav-link {% if current_uri == '/' %}active{% endif %}" href="/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Actualités</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ 'url' == '/articles' ? 'active' : '' }} " href="{{ path('articles') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Articles</a>
+                    <a class="nav-link {% if current_uri == '/articles' or current_uri == '/articles/' %}active{% endif %} " href="{{ path('articles') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Articles</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ 'url' == '/chapters' ? 'active' : '' }}" href="{{ path('chapters') }}"><i class="fa fa-book" aria-hidden="true"></i> Chapitres</a>
+                    <a class="nav-link {% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="fa fa-book" aria-hidden="true"></i> Chapitres</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-question" aria-hidden="true"></i> A propos</a>
+                    <a class="nav-link {% if current_uri == '/about' %}active{% endif %}" href="{{ path('about') }}"><i class="fa fa-info-circle" aria-hidden="true"></i> A propos</a>
                 </li>
             </ul>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user and is_granted('ROLE_ADMIN') %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user" aria-hidden="true"></i> Bonjour, {{ app.user.username }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ path('logout') }}">Se déconnecter</a>
+                    <a class="dropdown-item" href="{{ path('admin') }}"><i class="fa fa-cog" aria-hidden="true"></i> Administration</a>
+                    <a class="dropdown-item" href="{{ path('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Se déconnecter</a>
                 </div>
             </li>
             {% endif %}
@@ -53,23 +56,25 @@
     <div class="container">
         {% block content %} {% endblock content %}
     </div>
-
     <footer>
         <div class="footer_admin">
             <p>Copyright Jean Forteroche 2017</p>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if app.user and is_granted('ROLE_ADMIN') %}
             <p>Vous êtes connecté à l'administration.</p>
         </div>
         {% else %}
         <div class="footer_admin">
-            <a href="{{ path('login') }}"><i class="fa fa-user-o" aria-hidden="true"></i> Se connecter à l'administration</a> {% endif %}
+            <a href="{{ path('login') }}"><i class="fa fa-user-o" aria-hidden="true"></i> Se connecter à l'administration</a>            {% endif %}
         </div>
     </footer>
 
     <!-- Bootsrap Twitter JS -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

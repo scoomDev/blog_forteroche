@@ -2,8 +2,11 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use forteroche\Domain\Comment;
+use forteroche\Domain\Article;
 use forteroche\Form\Type\CommentType;
+use forteroche\Form\Type\ArticleType;
 
+//-----------------------------------------------------------------------------
 // Home page
 $app->get('/', function() use($app) {
     $url = $_SERVER['REQUEST_URI'];
@@ -38,6 +41,11 @@ $app->get('/chapters', function() use($app) {
     return $app['twig']->render('chapters.html.twig');
 })->bind('chapters');
 
+// Access to about
+$app->get('/about', function() use($app) {
+    return $app['twig']->render('about.html.twig');
+})->bind('about');
+
 // Login form
 $app->get('/login', function(Request $request) use($app) {
     return $app['twig']->render('login.html.twig', array(
@@ -46,10 +54,81 @@ $app->get('/login', function(Request $request) use($app) {
     ));
 })->bind('login');
 
+
+// ADMIN
+// Article
+//-----------------------------------------------------------------------------
+// Access to admin
+$app->get('/admin', function() use($app) {
+    $articles = $app['dao.article']->findAll();
+    $comments = $app['dao.comment']->findAll();
+    return $app['twig']->render('admin.html.twig', array('articles' => $articles, 'comments' => $comments));
+})->bind('admin');
+
+// Add a new article
+$app->match('/admin/article/add', function(Request $request) use($app) {
+    $article = new Article();
+    $articleForm = $app['form.factory']->create(ArticleType::class, $article);
+    $articleForm->handleRequest($request);
+    if($articleForm->isSubmitted() && $articleForm->isValid()) {
+        $app['dao.article']->save($article);
+        $app['session']->getFlashBag()->add('success', 'Le nouvel article à bien été créé.');
+    }
+    return $app['twig']->render('article_form.html.twig', array('title' => 'Créer un nouvel article', 'articleForm' => $articleForm->createView()));
+})->bind('admin_article_add');
+
+// Edite an existing article
+$app->match('/admin/article/{id}/edit', function($id, Request $request) use($app) {
+    $article = $app['dao.article']->find($id);
+    $articleForm = $app['form.factory']->create(ArticleType::class, $article);
+    $articleForm->handleRequest($request);
+    if($articleForm->isSubmitted() && $articleForm->isValid()) {
+        $app['dao.article']->save($article);
+        $app['session']->getFlashBag()->add('success', "L'article à bien été mis à jour.");
+    }
+    return $app['twig']->render('article_form.html.twig', array('title' => 'Editer l\'article', 'articleForm' => $articleForm->createView()));
+})->bind('admin_article_edit');
+
+// Remove an article
+$app->get('/admin/article/{id}/delete', function($id, Request $request) use ($app) {
+    $app['dao.comment']->deleteAllByArticle($id);
+    $app['dao.article']->delete($id);
+    $app['session']->getFlashBag()->add('success', 'L\'article à bien été supprimé.');
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_article_delete');
+
+// Comment
+//-----------------------------------------------------------------------------
+// Edit an existing comment
+$app->match('/admin/comment/{id}/edit', function($id, Request $request) use($app) {
+    $comment = $app['dao.comment']->find($id);
+    $commentForm = $app['form.factory']->create(CommentType::class, $comment);
+    $commentForm->handleRequest($request);
+    if($commentForm->isSubmitted() && $commentForm->isValid()) {
+        $app['dao.comment']->save($comment);
+        $app['session']->getFlashBag()->add('success', 'Le commentaire à bien été modifié.');
+    }
+    return $app['twig']->render('comment_form.html.twig', array('title' => 'Editer un commentaire', 'commentForm' => $commentForm->createView()));
+})->bind('admin_comment_edit');
+
+// Remove a comment
+$app->get('/admin/comment/{id}/delete', function($id, Request $request) use($app) {
+    $app['dao.comment']->delete($id);
+    $app['session']->getFlashbag()->add('success', 'Le commentaire à bien été supprimé.');
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_comment_delete');
+
+// TOOL
+//-----------------------------------------------------------------------------
 // hash password tool
 $app->get('/hashpwd', function() use ($app) {
     $rawPassword = '@dm1n';
     $salt = '%qUgq3NAYfC1MKwrW?yevbE';
     $encoder = $app['security.encoder.bcrypt'];
     return $encoder->encodePassword($rawPassword, $salt);
+});
+
+// Global var
+$app->before(function (Request $request) use ($app) {
+    $app['twig']->addGlobal('current_uri', $request->getRequestUri());
 });

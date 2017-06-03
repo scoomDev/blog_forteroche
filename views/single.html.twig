@@ -1,23 +1,30 @@
-{% extends "layout.html.twig" %} {% block title %} {{article.title}} {% endblock title %} {% block content %}
-<h1>{{article.title}}</h1>
-<hr>
-<p>{{article.content}}</p>
-<h3><i class="fa fa-comments" aria-hidden="true"></i> Commentaires</h3>
-<hr> {% for comment in comments %}
-<strong>{{ comment.author }}</strong> : {{ comment.content }}<br> {% else %} Pas encore de commentaires. {% endfor %}
-<h3><i class="fa fa-plus" aria-hidden="true"></i> Ajouter un commentaire</h3>
-<hr> {% for flashMessage in app.session.flashbag.get('success') %}
-<div class="alert alert-success">
-    {{ flashMessage }}
-</div>
-{% endfor %} {% if commentForm %} {{ form_start(commentForm) }}
-<div class="form-group">
-    {{ form_widget(commentForm.author, { 'attr': { 'class': 'form-control', 'placeholder': 'Votre Pseudo' } }) }}
-</div>
-<div class="form-group">
-    {{ form_errors(commentForm.content) }} {{ form_widget(commentForm.content, { 'attr': { 'rows': '4', 'class': 'form-control', 'placeholder': 'Ecrivez votre commentaire' } }) }}
-</div>
-<div class="form-group">
-    <input type="submit" class="btn btn-primary" value="Publier le commentaire">
-</div>
-{{ form_end(commentForm) }} {% endif %} {% endblock content %}
+{% extends "layout.html.twig" %}
+{% block title %} {{article.title}} {% endblock title %}
+{% block content %}
+    <h1>{{article.title}}</h1>
+    <hr>
+    <p>{{article.content}}</p>
+    <h3><i class="fa fa-comments" aria-hidden="true"></i> Commentaires</h3>
+    <hr> 
+    {% for comment in comments %}
+        <strong>{{ comment.author }}</strong> : {{ comment.content }}<br> {% else %} Pas encore de commentaires. {% endfor %}
+        <h3><i class="fa fa-plus" aria-hidden="true"></i> Ajouter un commentaire</h3>
+        <hr> {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %} 
+    {% if commentForm %} 
+        {{ form_start(commentForm) }}
+        <div class="form-group">
+            {{ form_widget(commentForm.author, { 'attr': { 'class': 'form-control', 'placeholder': 'Votre Pseudo' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_errors(commentForm.content) }} {{ form_widget(commentForm.content, { 'attr': { 'rows': '4', 'class': 'form-control', 'placeholder': 'Ecrivez votre commentaire' } }) }}
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Publier le commentaire">
+        </div>
+        {{ form_end(commentForm) }} 
+    {% endif %}
+{% endblock content %}

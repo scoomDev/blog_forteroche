@@ -1,18 +1,20 @@
-{% extends "layout.html.twig" %} {% block title %}Les articles {% endblock title %} {% block content %}
-<h1>Tous les articles</h1>
-<hr>
-<div class="row">
-    {% for article in articles %}
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-block">
-                <h3 class="card-title">{{article.title}}</h3>
-                <p class="card-text">{{ article.content }}</p>
-                <p><strong>{{article.author}}</strong> - <em>{{article.date}}</em></p>
-                <a href=" {{ path('article', { 'id': article.id }) }}" class="btn btn-primary">Lire la suite</a>
+{% extends "layout.html.twig" %}
+{% block title %}Les articles {% endblock title %} 
+{% block content %}
+    <h1>Tous les articles</h1>
+    <hr>
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-block">
+                        <h3 class="card-title">{{article.title}}</h3>
+                        <p class="card-text">{{ article.content | truncate(250) }}</p>
+                        <p><strong>{{article.author}}</strong> - <em>{{article.date}}</em></p>
+                        <a href=" {{ path('article', { 'id': article.id }) }}" class="btn btn-info">Lire la suite</a>
+                    </div>
+                </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 {% endblock content %}

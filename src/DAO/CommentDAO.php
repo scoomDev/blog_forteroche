@@ -26,6 +26,29 @@ class CommentDAO extends DAO {
         return $comments;
     }
 
+    public function find($id) {
+        $sql = "SELECT * FROM jf_comments WHERE com_id = ?";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+        if($row) {
+            return $this->buildDomainObject($row);
+        } else {
+            throw new \Excepetion('Aucun commentaires ne correspond à l\'ID ' . $id);
+        }
+    }
+
+    public function findAll() {
+        $sql = 'SELECT * FROM jf_comments ORDER BY com_id DESC';
+        $result = $this->getDb()->fetchAll($sql);
+
+        $entites = array();
+        foreach ($result as $row) {
+            $id = $row['com_id'];
+            $entites[$id] = $this->buildDomainObject($row);
+        }
+        return $entites;
+    }
+
     public function buildDomainObject(array $row) {
         $comment = new Comment();
         $comment->setId($row['com_id']);
@@ -57,6 +80,14 @@ class CommentDAO extends DAO {
             $id = $this->getDb()->lastInsertId();
             $comment->setId($id);
         }
+    }
+
+    public function deleteAllByArticle($articleId) {
+        $this->getDb()->delete('jf_comments', array('art_id' => $articleId));
+    }
+
+    public function delete($id) {
+        $this->getDb()->delete('jf_comments', array('com_id' => $id));
     }
 
 }
