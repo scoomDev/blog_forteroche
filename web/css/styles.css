@@ -2,6 +2,10 @@ body {
     padding-top: 75px;
 }
 
+hr {
+    margin-bottom: 25px;
+}
+
 .container h3 {
     margin-top: 25px;
 }
@@ -38,6 +42,18 @@ body {
 
 .dropdown-toggle:focus {
     color: rgba(255, 255, 255, .7);
+}
+
+.text-muted {
+    font-size: 18px;
+}
+.chapter {
+    margin: 0;
+    padding: 0;
+}
+
+.card{
+    margin-bottom: 25px;
 }
 
 footer {

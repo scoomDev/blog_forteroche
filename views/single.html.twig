@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 {% block title %} {{article.title}} {% endblock title %}
 {% block content %}
-    <h1>{{article.title}}</h1>
+    <h1>{{article.title | upper}} <em class="text-muted">(chapitre {{ article.chapter }})</em></h1>
     <hr>
     <p>{{article.content}}</p>
     <h3><i class="fa fa-comments" aria-hidden="true"></i> Commentaires</h3>
