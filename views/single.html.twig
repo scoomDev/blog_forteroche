@@ -3,11 +3,23 @@
 {% block content %}
     <h1>{{article.title | upper}} <em class="text-muted">(chapitre {{ article.chapter }})</em></h1>
     <hr>
-    <p>{{article.content}}</p>
-    <h3><i class="fa fa-comments" aria-hidden="true"></i> Commentaires</h3>
-    <hr> 
+    <p>{{article.content | raw}}</p>
+    <h3><i class="fa fa-comments" aria-hidden="true"></i> Commentaires <span class="nbrComments">(Il y a {{ nbrComments }} commentaire{{ nbrComments > 1 ? 's' : '' }})</span></h3>
+    <hr>
     {% for comment in comments %}
-        <strong>{{ comment.author }}</strong> : {{ comment.content }}<br> {% else %} Pas encore de commentaires. {% endfor %}
+        <div class="card card-comment-mg-bottom">
+            <div class="card-block">
+                <div class="card-title">
+                    <p>Le {{ comment.date | date('d/m/Y à H:i:s') }} - <strong>{{ comment.author }}</strong> :</p>  
+                </div>
+                 <p class="card-text">{{ comment.content }}</p>
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-outline-info btn-sm" type="button">Répondre</button>
+                <button class="btn btn-warning btn-sm" type="button">Signaler</button>
+            </div>
+        </div>
+        {% else %} Pas encore de commentaires. {% endfor %}
         <h3><i class="fa fa-plus" aria-hidden="true"></i> Ajouter un commentaire</h3>
         <hr> {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">

@@ -43,7 +43,19 @@ $app['twig'] = $app->extend('twig', function(Twig_Environment $twig, $app) {
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
-$app->register(new Silex\Provider\TranslationServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider(), array('local_fallbacks' => array('fr')));
+$app['translator.domains'] = array(
+    'messages' => array(
+        'fr' => array(
+            'Bad credentials.' => 'Mauvaises références.'
+        )
+    ),
+    'validators' => array(
+        'fr' => array(
+            'Bad credentials.' => 'Mauvais qualifications.'
+        )
+    )
+);
 
 // Register services
 $app['dao.article'] = function($app) {

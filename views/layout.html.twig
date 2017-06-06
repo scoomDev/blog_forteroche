@@ -28,10 +28,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/' %}active{% endif %}" href="/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Actualités</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/articles' or current_uri == '/articles/' %}active{% endif %} " href="{{ path('articles') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Articles</a>
+                    <a class="nav-link {% if current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="fa fa-book" aria-hidden="true"></i> Chapitres</a>
@@ -73,7 +70,17 @@
     <script type="text/javascript">
         tinymce.init({
             selector:'#article_content',
-            language : 'fr_FR'
+            language: 'fr_FR',
+            language_url : '/js/tinymce/js/langs/fr_FR.js',
+            plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'save table contextmenu directionality emoticons template paste textcolor'
+            ],
+            toolbar: [
+                'insertfile undo redo | styleselect | bold italic underline strikethrough | emoticons | link image',
+                'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor'
+            ]
         });
     </script>
 
