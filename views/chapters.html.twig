@@ -1,4 +1,18 @@
-{% extends "layout.html.twig" %} {% block title %} Les chapitres {% endblock title %} {% block content %}
+{% extends "layout.html.twig" %} 
+{% block title %} Les chapitres {% endblock title %} 
+{% block content %}
 <h1 class="blog-title">Voici les différents chapitres :</h1>
-<p class="lead blog-description">Billet simple pour l'Alaska</p>
+<hr>
+
+{% for article in articles %}
+    <h3>Chapitres {{ article.chapter }}</h3>
+    <ul>
+        {% if article.chapter == article.chapter %}
+            <li>
+                <h4>{{ article.title }}</h4>
+                <p>{{ article.content | truncate(60) | raw }}</p>
+            </li>
+        {% endif %}
+    </ul>
+{% endfor %}
 {% endblock content %}

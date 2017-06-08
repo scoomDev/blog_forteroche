@@ -34,7 +34,8 @@ $app->match('/article/{id}', function($id, Request $request) use($app) {
 
 // Access to chapters
 $app->get('/chapters', function() use($app) {
-    return $app['twig']->render('chapters.html.twig');
+    $articles = $app['dao.article']->findAll();
+    return $app['twig']->render('chapters.html.twig', array('articles' => $articles));
 })->bind('chapters');
 
 // Access to about
