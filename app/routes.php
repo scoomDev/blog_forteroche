@@ -10,14 +10,9 @@ use forteroche\Form\Type\ArticleType;
 // Home page
 $app->get('/', function() use($app) {
     $url = $_SERVER['REQUEST_URI'];
-    return $app['twig']->render('index.html.twig', array('url' => $url));
-})->bind('home');
-
-// Access to all articles
-$app->get('/articles', function() use($app) {
     $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('articles.html.twig', array('articles' => $articles));
-})->bind('articles');
+    return $app['twig']->render('index.html.twig', array('articles' => $articles));
+})->bind('home');
 
 // Access to an article
 $app->match('/article/{id}', function($id, Request $request) use($app) {

@@ -28,10 +28,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/' %}active{% endif %}" href="/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Actualités</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/articles' or current_uri == '/articles/' %}active{% endif %} " href="{{ path('articles') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Articles</a>
+                    <a class="nav-link {% if current_uri == '/' or current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="fa fa-book" aria-hidden="true"></i> Chapitres</a>

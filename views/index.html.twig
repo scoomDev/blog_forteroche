@@ -1,5 +1,21 @@
-{% extends "layout.html.twig" %} {% block title %} Home {% endblock title %} {% block content %}
-<img src="/img/alaska_01.jpg" alt="Paysage de l'Alaska" class="img-fluid">
-<h1 class="blog-title">Bienvenue sur mon blog</h1>
-<p class="lead blog-description">Billet simple pour l'Alaska</p>
+{% extends "layout.html.twig" %}
+{% block title %}Les articles {% endblock title %} 
+{% block content %}
+    <h1>Tous les articles</h1>
+    <hr>
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-block">
+                        <h3 class="card-title">{{article.title | upper}}</h3>
+                        <p class="card-text">{{ article.content | truncate(250) | striptags }}</p>
+                        <p class="text-muted chapter">Chapitre {{ article.chapter }}</p>
+                        <p><strong>{{article.author}}</strong> - <em>{{article.date | date('d/m/Y')}}</em></p>
+                        <a href=" {{ path('article', { 'id': article.id }) }}" class="btn btn-info">Lire la suite</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}

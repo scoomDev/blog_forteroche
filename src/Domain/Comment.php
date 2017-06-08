@@ -25,6 +25,13 @@ class Comment {
     private $content;
 
     /**
+     * Comment date.
+     *
+     * @var string
+     */
+    private $date;
+
+    /**
      * Associated comment
      *
      * @var integer
@@ -72,6 +79,15 @@ class Comment {
 
     public function setParentId($parentId) {
         $this->parentId = $parentId;
+        return $this;
+    }
+
+    public function getDate() {
+        return $this->date;
+    }
+
+    public function setDate($date) {
+        $this->date = $date;
         return $this;
     }
 
