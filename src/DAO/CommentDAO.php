@@ -55,7 +55,6 @@ class CommentDAO extends DAO {
         $comment->setAuthor($row['com_author']);
         $comment->setContent($row['com_content']);
         $comment->setParentId($row['com_parent']);
-        $comment->setDate($row['com_date']);
         $comment->setArticle($row['art_id']);
 
         if(array_key_exists('art_id', $row)) {
@@ -71,8 +70,7 @@ class CommentDAO extends DAO {
         $commentData = array(
             'art_id' => $comment->getArticle()->getId(),
             'com_author' => $comment->getAuthor(),
-            'com_content' => $comment->getContent(),
-            'com_date' => $comment->getDate()
+            'com_content' => $comment->getContent()
         );
 
         if($comment->getId()) {
@@ -90,10 +88,6 @@ class CommentDAO extends DAO {
 
     public function delete($id) {
         $this->getDb()->delete('jf_comments', array('com_id' => $id));
-    }
-
-    public function countComments($id){
-        return count($this->findAllByArticle($id));
     }
 
 }

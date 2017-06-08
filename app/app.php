@@ -44,6 +44,10 @@ $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 25e7927... Différentes corrections et améliorations
 // Register services
 $app['dao.article'] = function($app) {
     return new forteroche\DAO\ArticleDAO($app['db']);

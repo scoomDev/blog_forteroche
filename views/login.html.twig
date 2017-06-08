@@ -1,10 +1,8 @@
-{% extends 'layout.html.twig' %} 
-{% block content %}
-<h2 class="text-center"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Authentification</h2>
-<hr>
+{% extends 'layout.html.twig' %} {% block title %}User authentication{% endblock %} {% block content %}
+<h2 class="text-center">{{ block('title') }}</h2>
 {% if error %}
 <div class="alert alert-danger">
-    <strong>Erreur de login ou de mot de passe</strong>
+    <strong>Login failed!</strong> {{ error }}
 </div>
 {% endif %}
 <div class="well">
