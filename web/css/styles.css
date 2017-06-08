@@ -1,75 +1,14 @@
-body {
-    padding-top: 75px;
+h3 {
+    margin-top: 100px;
 }
 
-hr {
-    margin-bottom: 25px;
+.text-tiny {
+    font-size: 1.2rem;
 }
 
-.container h3 {
-    margin-top: 25px;
-}
-
-.nav li {
-    list-style: none;
-}
-
-.nav-link.active {
-    position: relative;
-}
-
-@media screen and (min-width: 992px) {
-    .nav-link.active::after {
-        position: absolute;
-        bottom: -8px;
-        left: 50%;
-        width: 0;
-        height: 0;
-        margin-left: -.3rem;
-        vertical-align: middle;
-        content: "";
-        border-right: .5rem solid transparent;
-        border-bottom: .5rem solid;
-        border-left: .5rem solid transparent;
-    }
-}
-
-
-.dropdown-toggle {
-    color: rgba(255, 255, 255, .5);
-}
-
-.dropdown-toggle:hover {
-    color: rgba(255, 255, 255, .8);
-}
-
-.dropdown-toggle:focus {
-    color: rgba(255, 255, 255, .8);
-}
-
-.text-muted {
-    font-size: 18px;
-}
-
-.nbrComments {
-    font-size: 16px;
-}
-
-.chapter {
-    margin: 0;
-    padding: 0;
-}
-
-.card:hover {
-    box-shadow: 0 5px 15px rgba(100,100,100,0.1);
-}
-
-.card-comment-mg-bottom{
-    margin-bottom: 10px;
-}
-
-.card-article-mg-bottom {
-    margin-bottom: 25px;
+.chapter-title {
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 footer {

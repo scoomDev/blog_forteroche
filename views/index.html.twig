@@ -1,18 +1,22 @@
 {% extends "layout.html.twig" %}
 {% block title %}Les articles {% endblock title %} 
 {% block content %}
-    <h1>Tous les articles</h1>
+    <h1 class="blue-grey-text text-darken-2">Tous les articles</h1>
     <hr>
     <div class="row">
         {% for article in articles %}
-            <div class="col-md-6">
-                <div class="card card-article-mg-bottom">
-                    <div class="card-block">
+            <div class="col s12 m6">
+                <div class="card hoverable blue-grey darken-1">
+                    <div class="card-content white-text">
                         <h3 class="card-title">{{article.title | upper}}</h3>
-                        <p class="card-text">{{ article.content | truncate(250) | raw }}</p>
-                        <p class="text-muted chapter">Chapitre {{ article.chapter }}</p>
+                        <p>{{ article.content | truncate(250) | raw }}</p>
+                    </div>
+                    <div class="card-content white-text">
+                        <p>Chapitre {{ article.chapter }}</p>
                         <p><strong>{{article.author}}</strong> - <em>{{article.date | date('d/m/Y')}}</em></p>
-                        <a href=" {{ path('article', { 'id': article.id }) }}" class="btn btn-primary">Lire la suite</a>
+                        <div class="card-action">
+                            <a href=" {{ path('article', { 'id': article.id }) }}"><i class="material-icons tiny">add</i> Lire la suite</a>
+                        </div>
                     </div>
                 </div>
             </div>

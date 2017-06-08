@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <!-- Boostrap Twitter CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
-        crossorigin="anonymous">
+    
+    <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Materialize CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <!-- personnal CSS -->
     <link rel="stylesheet" href="/css/styles.css">
     <!-- Font Awesome -->
@@ -18,50 +19,57 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-        <h1 class="navbar-brand mb-0">Billet simple pour l'Alaska</h1>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="fa fa-file-text" aria-hidden="true"></i> Accueil</a>
+    {% if app.user and is_granted('ROLE_ADMIN') %}
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li>
+            <a href="{{ path('admin') }}">Administration</a>
+        </li>
+        <li>
+             <a href="{{ path('logout') }}">Se déconnecter</a>
+        </li>
+    </ul>
+    {% endif %}
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">Billet simple pour l'Alaska</a>
+            <ul class="right hide-on-med-and-down" id="nav-mobile">
+                <li>
+                    <a class="{% if current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="material-icons left">description</i> Accueil</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="fa fa-book" aria-hidden="true"></i> Chapitres</a>
+                <li>
+                    <a class="{% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="material-icons left">library_books</i> Chapitres</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if current_uri == '/about' %}active{% endif %}" href="{{ path('about') }}"><i class="fa fa-info-circle" aria-hidden="true"></i> A propos</a>
+                <li>
+                    <a class="{% if current_uri == '/about' %}active{% endif %}" href="{{ path('about') }}"><i class="material-icons left">info</i> A propos</a>
                 </li>
-            </ul>
-            {% if app.user and is_granted('ROLE_ADMIN') %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user" aria-hidden="true"></i> Bonjour, {{ app.user.username }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ path('admin') }}"><i class="fa fa-cog" aria-hidden="true"></i> Administration</a>
-                    <a class="dropdown-item" href="{{ path('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Se déconnecter</a>
-                </div>
-            </li>
-            {% endif %}
+                <li> <!-- Dropdown trigger -->
+                    <a class="dropdown-button" href="#!" data-activates="dropdown1">
+                        {% if app.user and is_granted('ROLE_ADMIN') %}
+                        Bonjour, {{ app.user.username }}<i class="material-icons right">arrow_drop_down</i>
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>          
         </div>
     </nav>
     <div class="container">
         {% block content %} {% endblock content %}
     </div>
-    <footer>
-        <div class="footer_admin">
-            <p>Copyright Jean Forteroche 2017</p>
-        {% if app.user and is_granted('ROLE_ADMIN') %}
-            <p>Vous êtes connecté à l'administration.</p>
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                 <p>Copyright Jean Forteroche 2017</p>
+            {% if app.user and is_granted('ROLE_ADMIN') %}
+                <p>Vous êtes connecté à l'administration.</p>
+            </div>
+            
         </div>
         {% else %}
-        <div class="footer_admin">
-            <a href="{{ path('login') }}"><i class="fa fa-user-o" aria-hidden="true"></i> Se connecter à l'administration</a>            {% endif %}
+        <div class="footer-copyright">
+            <div class="container">
+                <a href="{{ path('login') }}"><i class="fa fa-user-o" aria-hidden="true"></i> Se connecter à l'administration</a>            {% endif %}
+            </div>
         </div>
     </footer>
 
@@ -84,13 +92,10 @@
         });
     </script>
 
-    <!-- Bootsrap Twitter JS -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-        crossorigin="anonymous"></script>
+    <!-- Materialize JS -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script src="js/app.js" ></script>
 </body>
 
 </html>
