@@ -9,7 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class CommentType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('content', TextareaType::class)->add('author', TextType::class);
+        $builder
+            ->add('content', TextareaType::class, ['label' => 'Message'])
+            ->add('author', TextType::class, ['label' => 'Pseudo']);
     }
 
     public function getName() {

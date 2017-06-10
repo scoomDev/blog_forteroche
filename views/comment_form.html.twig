@@ -6,32 +6,30 @@
 {% endblock title %}
 
 {% block content %}
-    <h2 class="text-center">{{ block('title') }}</h2>
+    <h2 class="blue-grey-text text-darken-2"><i class="material-icons medium icon-bottom-medium">mode_edit</i>{{ block('title') }}</h2>
     <hr>
     {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="alert alert-success">
+        <div class="card-panel green white-text">
             {{ flashMessage }}
         </div>
     {% endfor %}
 
     <div class="container">
-        {{ form_start(commentForm, { 'attr': {'class': 'form-horizontal'} }) }}
-            <div class="form-group">
-                {{ form_label(commentForm.author, 'Pseudo :', { 'label_attr': { 'class': 'col-sm-4 control-label' } }) }}
-                <div class="col-sm-6">
+        {{ form_start(commentForm) }}
+            <div>
+                {{ form_label(commentForm.author) }}
+                <div class="input-field">
                     {{ form_errors(commentForm.author) }}
-                    {{ form_widget(commentForm.author, { 'attr': { 'class': 'form-control' } }) }}
+                    {{ form_widget(commentForm.author) }}
                 </div>
-                {{ form_label(commentForm.content, 'Message :', { 'label_attr': { 'class': 'col-sm-4 control-label' } }) }}
-                <div class="col-sm-6">
+                {{ form_label(commentForm.content) }}
+                <div class="input-field">
                     {{ form_errors(commentForm.content) }}
-                    {{ form_widget(commentForm.content, { 'attr': { 'class': 'form-control', 'rows': '4' } }) }}
+                    {{ form_widget(commentForm.content, { 'attr': { 'class': 'materialize-textarea', 'rows': '4' } }) }}
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-3">
-                    <input type="submit" class="btn btn-primary" value="Enregistrer">
-                </div>
+            <div class="mt_btn right-align">
+                <button class="btn-floating btn-large tooltipped green lighten-1" type="submit" data-position="left" data-delay="30" data-tooltip="Sauvegarder"><i class="material-icons">save</i></button>
             </div>
         {{ form_end(commentForm) }}
     </div>

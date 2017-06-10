@@ -1,5 +1,52 @@
-h3 {
-    margin-top: 100px;
+hr {
+    margin-bottom: 30px;
+    border-width: 0 0 .5px 0;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.3);
+}
+
+.brand-logo {
+    margin-left: 10px;
+}
+
+.dropdown-content {
+    top: 64px ! important;
+}
+
+.dropdown-content li > a {
+    color: #455a64;
+}
+
+.dropdown-content li:hover {
+    background-color: #455a64;
+}
+
+.dropdown-content li:hover a {
+    color: white;
+}
+
+.card-article {
+    height: 380px;
+}
+
+.card-content h3 {
+    font-size: 2rem;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+}
+
+.article-chapter {
+    display: block;
+    margin-top: -30px;
+}
+
+.article-chapter-small {
+    text-align: center;
+    display: block;
+    margin-bottom: -25px;
 }
 
 .text-tiny {
@@ -11,6 +58,10 @@ h3 {
     padding-bottom: 0;
 }
 
+.indicator {
+    background-color: #607d8b ! important;
+}
+
 footer {
     height: auto;
     margin-top: 50px;
@@ -18,12 +69,35 @@ footer {
     text-align: center;
 }
 
-.footer_admin {
-    padding: 10px;
+.link-footer {
+    color: white;
 }
 
-.footer_admin p,
-.footer_admin a {
-    color: whitesmoke;
-    margin: 0;
+/* HELPERS */
+.mt100 {
+    margin-top: 100px;
+}
+
+.mt_btn{
+    margin-top: 10px;
+}
+
+.icon-bottom-tiny {
+    position: relative;
+    bottom: -2px;
+}
+
+.icon-bottom-small {
+    position: relative;
+    bottom: -5px;
+}
+
+.icon-bottom-medium {
+    position: relative;
+    bottom: -10px;
+}
+
+.icon-bottom-large {
+    position: relative;
+    bottom: -15px;
 }

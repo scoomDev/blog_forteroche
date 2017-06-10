@@ -12,8 +12,6 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <!-- personnal CSS -->
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="/css/fa/css/font-awesome.min.css">
 
     <title>Billet simple pour l'Alaska - {% block title %} {% endblock title %} </title>
 </head>
@@ -30,7 +28,8 @@
         </li>
     </ul>
     {% endif %}
-    <nav>
+
+    <nav class="blue-grey darken-2">
         <div class="nav-wrapper">
             <a href="/" class="brand-logo">Billet simple pour l'Alaska</a>
             <ul class="right hide-on-med-and-down" id="nav-mobile">
@@ -50,27 +49,54 @@
                         {% endif %}
                     </a>
                 </li>
-            </ul>          
+            </ul>
+            <!-- Responsive menu -->
+            <ul id="slide-out" class="side-nav">
+                <li>
+                    <a class="{% if current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="material-icons left">description</i> Accueil</a>
+                </li>
+                <li>
+                    <a class="{% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="material-icons left">library_books</i> Chapitres</a>
+                </li>
+                <li>
+                    <a class="{% if current_uri == '/about' %}active{% endif %}" href="{{ path('about') }}"><i class="material-icons left">info</i> A propos</a>
+                </li>
+                <li><div class="divider"></div></li>
+                <li> <!-- Dropdown trigger -->
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                    <ul>
+                        <li><a class="subheader">Bonjour, {{ app.user.username }}</a></li>
+                        <li>
+                            <a href="{{ path('admin') }}"><i class="material-icons">settings</i> Administration</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('logout') }}"><i class="material-icons">exit_to_app</i> Se déconnecter</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </li>
+            </ul>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>      
         </div>
     </nav>
+
     <div class="container">
         {% block content %} {% endblock content %}
     </div>
-    <footer class="page-footer">
+
+    <footer class="page-footer blue-grey darken-2">
         <div class="footer-copyright">
             <div class="container">
                  <p>Copyright Jean Forteroche 2017</p>
             {% if app.user and is_granted('ROLE_ADMIN') %}
                 <p>Vous êtes connecté à l'administration.</p>
-            </div>
-            
-        </div>
-        {% else %}
-        <div class="footer-copyright">
-            <div class="container">
-                <a href="{{ path('login') }}"><i class="fa fa-user-o" aria-hidden="true"></i> Se connecter à l'administration</a>            {% endif %}
+            {% else %}
+            <p>
+                <a href="{{ path('login') }}" class="link-footer"><i class="material-icons icon-bottom-small">person_outline</i> Se connecter à l'administration</a>
+            </p>
             </div>
         </div>
+        {% endif %}
     </footer>
 
     <!-- Tiny MCE -->

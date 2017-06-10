@@ -1,68 +1,60 @@
 {% extends "layout.html.twig" %}
 {% set adminMenu = true %}
 
-{% block title %}<i class="fa fa-cog" aria-hidden="true"></i> Administration{% endblock %}
+{% block title %}Administration{% endblock %}
 {% block content %}
-    <h2 class="text-center">{{ block('title') }}</h2>
+    <h2 class="blue-grey-text text-darken-2"><i class="material-icons medium icon-bottom-medium">settings</i> {{ block('title') }}</h2>
     <hr>
     {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="alert alert-success">
+        <div class="card-panel green white-text">
             {{ flashMessage }}
         </div>
     {% endfor %}
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#articles" data-toggle="tab" role="tab" aria-controls="articles"><i class="fa fa-file-text" aria-hidden="true"></i> Articles</a>
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3">
+                    <a class="active blue-grey-text" href="#articles"><i class="material-icons icon-bottom-tiny tiny">description</i> Articles</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#comments" data-toggle="tab" role="tab" aria-controls="comments"><i class="fa fa-comments" aria-hidden="true"></i> Commentaires</a>
+                <li class="tab col s3">
+                    <a class="blue-grey-text" href="#comments"><i class="material-icons icon-bottom-tiny tiny">comment</i> Commentaires</a>
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="tab-content">
-        <div class="tab-pane fade show active adminTable" id="articles" role="tabpanel">
+        <div class="col s12" id="articles">
             {% if articles %}
-                <div class="table-responsive table-striped">
-                    <table class="table table-hover table-condensed">
+                <div>
+                    <table class="responsive-table highlight centered bordered">
                         <thead>
                             <tr>
                                 <th>Titre</th>
                                 <th>Contenu</th>
                                 <th>Chapitre</th>
-                                <th></th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         {% for article in articles %}
                             <tr>
-                                <td><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
+                                <td><a href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
                                 <td>{{ article.content | truncate(60) | striptags}}</td>
                                 <td>{{ article.chapter }}</td>
                                 <td>
-                                    <a class="btn btn-info btn-xs" href="{{ path('admin_article_edit', { 'id': article.id }) }}" title="Editer">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    <a class="btn tooltipped blue lighten-1" href="{{ path('admin_article_edit', { 'id': article.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
+                                        <i class="material-icons">mode_edit</i>
                                     </a>
-                                    <button class="btn btn-danger btn-xs" type="button" title="Supprimer" data-toggle="modal" data-target="#articleDialog{{ article.id }}">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <button class="waves-effect btn tooltipped red lighten-1" type="button" data-target="#articleDialog{{ article.id }}" role="dialog" data-position="top" data-delay="30" data-tooltip="Supprimer">
+                                        <i class="material-icons">delete</i>
                                     </button>
-                                    <div id="articleDialog{{ article.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                    <h4 class="modal-title" id="myModalLabel">Veuillez confirmer</h4>
-                                                </div>  <!-- modal header -->
-                                                <div class="modal-body">
-                                                    Voulez-vous vraiment supprimer cet article ?
-                                                </div>  <!-- modal body -->
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                                    <a href="{{ path('admin_article_delete', {'id': article.id}) }}" class="btn btn-danger">Supprimer</a>
-                                                </div> <!-- modal footer -->
-                                            </div> <!-- modal content -->
-                                        </div>  <!-- modal dialog -->
+                                    <div class="modal" id="#articleDialog{{ article.id }}" role="dialog" aria-hidden="true">
+                                        <div class="modal-content">
+                                            <button class="modal-action modal-close waves-effect btn-flat right" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Veuillez confirmer</h4>
+                                            <p>Voulez-vous vraiment supprimer cet article ?</p>
+                                            <div class="modal-footer">
+                                                <button class="modal-action modal-close waves-effect btn-flat">Annuler</button>
+                                                <a href="{{ path('admin_article_delete', {'id': article.id}) }}" class="btn red lighten-1">Supprimer</a>
+                                            </div> <!-- modal footer -->
+                                        </div> <!-- modal content -->
                                     </div>  <!-- modal -->
                                 </td>
                             </tr>
@@ -70,63 +62,64 @@
                     </table>
                 </div>
             {% else %}
-                <div class="alert alert-warning">
+                <div class="card-panel orange white-text">
                     Aucun article trouvé.
                 </div>
             {% endif %}
-            <a href="{{ path('admin_article_add') }}">
-                <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter un article</button>
-            </a>
+            <div class="mt_btn right-align">
+                <a href="{{ path('admin_article_add') }}" class="btn-floating btn-large tooltipped waves-effect blue lighten-1" data-position="left" data-delay="30" data-tooltip="Ajouter une article">
+                    <i class="material-icons">add</i>
+                </a>
+            </div>
+            
         </div> 
-        <div class="tab-pane fade adminTable" id="comments" role="tabpanel">
+        <div class="col s12" id="comments">
             {% if comments %}
-                <div class="table-responsive">
-                    <table class="table table-hover table-condensed">
+                <div>
+                    <table class="responsive-table highlight centered bordered">
                         <thead>
                             <tr>
-                                <th>Article</th>
                                 <th>Auteur</th>
                                 <th>Contenu</th>
-                                <th></th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         {% for comment in comments %}
                             <tr>
-                                <td><a class="articleTitle" href="{{ path('article', { 'id': comment.article.id }) }}">{{ comment.article.title }}</a></td>
                                 <td>{{ comment.author }}</td>
-                                <td>{{ comment.content | truncate(60) }}</td>
+                                <td>{{ comment.content }}</td>
                                 <td>
-                                    <a href="{{ path('admin_comment_edit', { 'id': comment.id }) }}" class="btn btn-info btn-xs" title="Editer"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <button class="btn btn-danger btn-xs" type="button" title="Supprimer" data-toggle="modal" data-target="#commentDialog{{ comment.id }}">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <a class="btn tooltipped waves-effect blue lighten-1" href="{{ path('admin_comment_edit', { 'id': comment.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+                                    <button class="btn tooltipped waves-effect red lighten-1" type="button" data-target="#commentDialog{{ comment.id }}" role="dialog" data-position="top" data-delay="30" data-tooltip="Supprimer">
+                                        <i class="material-icons">delete</i>
                                     </button>
-                                    <div id="commentDialog{{ comment.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                    <h4 class="modale-title" id="myModalLabel">Veuillez confirmer</h4>
-                                                </div> <!-- Modal header -->
-                                                <div class="modal-body">
-                                                    Voulez vous vraiment supprimer ce commentaire ?
-                                                </div> <!-- Modal body -->
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                                    <a href="{{ path('admin_comment_delete', { 'id': comment.id }) }}" class="btn btn-danger">Confirmer</a>
-                                                </div> <!-- Modal footer -->
-                                            </div> <!-- Modal content -->
-                                        </div> <!-- Modal dialog -->
-                                    </div> <!-- Modal -->
+                                    <div class="modal" id="#commentDialog{{ comment.id }}" role="dialog" aria-hidden="true">
+                                        <div class="modal-content">
+                                            <button class="modal-action modal-close waves-effect btn-flat right" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <div>
+                                                <h4 class="modal-title" id="myModalLabel">Veuillez confirmer</h4>
+                                                <p>Voulez-vous vraiment supprimer ce commentaire ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="modal-action modal-close waves-effect btn-flat">Annuler</button>
+                                                <a href="{{ path('admin_comment_delete', {'id': comment.id}) }}" class="btn waves-effect red lighten-1">Supprimer</a>
+                                            </div> <!-- modal footer -->
+                                        </div> <!-- modal content -->
+                                    </div>  <!-- modal -->
                                 </td>
                             </tr>
                         {% endfor %}
                     </table>
                 </div>
             {% else %}
-                <div class="alert alert-warning">
+                <div class="card-panel orange white-text">
                     Aucun commentaires trouvés.
                 </div>
             {% endif %}
         </div>
     </div>
+</div>
+    
 {% endblock content %}

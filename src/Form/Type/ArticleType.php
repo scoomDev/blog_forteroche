@@ -14,7 +14,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class, ['label' => 'Titre'])
             ->add('content', TextareaType::class)
-            ->add('chapter', textType::class);
+            ->add('chapter', textType::class, ['label' => 'Chapitre']);
     }
 
     public function getName()

@@ -1,25 +1,25 @@
 {% extends "layout.html.twig" %}
 {% block title %}Les articles {% endblock title %} 
 {% block content %}
-    <h1 class="blue-grey-text text-darken-2">Tous les articles</h1>
-    <hr>
-    <div class="row">
-        {% for article in articles %}
-            <div class="col s12 m6">
-                <div class="card hoverable blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <h3 class="card-title">{{article.title | upper}}</h3>
-                        <p>{{ article.content | truncate(250) | raw }}</p>
-                    </div>
-                    <div class="card-content white-text">
-                        <p>Chapitre {{ article.chapter }}</p>
-                        <p><strong>{{article.author}}</strong> - <em>{{article.date | date('d/m/Y')}}</em></p>
-                        <div class="card-action">
-                            <a href=" {{ path('article', { 'id': article.id }) }}"><i class="material-icons tiny">add</i> Lire la suite</a>
-                        </div>
-                    </div>
+<h2 class="blue-grey-text text-darken-2">Tous les articles</h2>
+<hr>
+<div class="row">
+    {% for article in articles %}
+        <div class="col m12 l6">
+            <div class="card card-article hoverable blue-grey">
+                <div class="card-content white-text">
+                    <h3 class="card-title">{{article.title | upper}}</h3>
+                    <p>{{ article.content | truncate(160) | raw }}</p>
+                </div>
+                <div class="card-content bottom white-text">
+                    <p>Chapitre {{ article.chapter }}</p>
+                    <p><strong>{{article.author}}</strong> - <em>{{article.date | date('d/m/Y')}}</em></p>
+                </div>
+                <div class="card-action right-align">
+                    <a href=" {{ path('article', { 'id': article.id }) }}" class="orange-text"><i class="material-icons tiny icon-bottom-tiny">add</i> Lire la suite</a>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock content %}
