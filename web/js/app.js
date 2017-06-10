@@ -5,5 +5,4 @@ $(document).ready(function(){
     $('.modal').modal();
     $('.tooltiped').tooltip();
     $('.button-collapse').sideNav();
-    $('.collapsible').collapsible();
 })

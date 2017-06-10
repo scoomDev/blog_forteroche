@@ -1,0 +1,10 @@
+{% if app.user and is_granted('ROLE_ADMIN') %}
+<ul id="dropdown1" class="dropdown-content">
+    <li>
+        <a href="{{ path('admin') }}">Administration</a>
+    </li>
+    <li>
+        <a href="{{ path('logout') }}">Se déconnecter</a>
+    </li>
+</ul>
+{% endif %}
