@@ -25,9 +25,9 @@ class Article {
     private $content;
 
     /**
-     * Article chapter
+     * Associated chapter
      *
-     * @var integer
+     * @var forteroche\Domain\Chapter
      */
     private $chapter;
 

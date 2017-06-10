@@ -7,18 +7,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ArticleType extends AbstractType
+class ChapterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('content', TextareaType::class)
-            ->add('chapter', TextType::class, ['label' => 'Chapitre']);
+            ->add('number', TextType::class, ['label' => 'Numéro'])
+            ->add('title', TextType::class, ['label' => 'Titre']);
     }
 
     public function getName()
     {
-        return 'article';
+        return 'chapter';
     }
 }

@@ -46,12 +46,18 @@ $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
 // Register services
 $app['dao.article'] = function($app) {
-    return new forteroche\DAO\ArticleDAO($app['db']);
+    $articleDAO = new forteroche\DAO\ArticleDAO($app['db']);
+    return $articleDAO;
 };
 $app['dao.comment'] = function($app) {
     $commentDAO = new forteroche\DAO\CommentDAO($app['db']);
     $commentDAO->setArticleDAO($app['dao.article']);
     return $commentDAO;
+};
+$app['dao.chapter'] = function($app) {
+    $chapterDAO = new forteroche\DAO\ChapterDAO($app['db']);
+    $chapterDAO->setArtDAO($app['dao.article']);
+    return  $chapterDAO;
 };
 $app['dao.user'] = function($app) {
     return new forteroche\DAO\UserDAO($app['db']);

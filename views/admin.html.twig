@@ -19,8 +19,11 @@
                 <li class="tab col s3">
                     <a class="blue-grey-text" href="#comments"><i class="material-icons icon-bottom-tiny tiny">comment</i> Commentaires</a>
                 </li>
+                <li class="tab col s3">
+                    <a class="blue-grey-text" href="#chapters"><i class="material-icons tiny icon-bottom-tiny">library_books</i> Chapitres</a>
+                </li>
             </ul>
-        </div>
+        </div> <!-- Categories -->
         <div class="col s12" id="articles">
             {% if articles %}
                 <div>
@@ -72,7 +75,7 @@
                 </a>
             </div>
             
-        </div> 
+        </div> <!-- Articles -->
         <div class="col s12" id="comments">
             {% if comments %}
                 <div>
@@ -118,7 +121,58 @@
                     Aucun commentaires trouvés.
                 </div>
             {% endif %}
-        </div>
+        </div> <!-- Comments -->
+        <div class="col s12" id="chapters">
+            {% if chapters %}
+                <div>
+                <table class="responsive-table highlight centered bordered">
+                    <thead>
+                        <tr>
+                            <th>Numéro</th>
+                            <th>Titre</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    {% for chapter in chapters %}
+                    <tr>
+                        <td>{{ chapter.number }}</td>
+                        <td>{{ chapter.title }}</td>
+                        <td>
+                            <a class="btn tooltipped waves-effect blue lighten-1" href="{{ path('admin_chapter_edit', { 'id': chapter.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
+                                <i class="material-icons">mode_edit</i>
+                            </a>
+                            <button class="btn tooltipped waves-effect red lighten-1" type="button" data-target="#chapterDialog{{ chapter.id }}" role="dialog" data-position="top" data-delay="30" data-tooltip="Supprimer">
+                                <i class="material-icons">delete</i>
+                            </button>
+                            <div class="modal" id="#chapterDialog{{ chapter.id }}" role="dialog" aria-hidden="true">
+                                <div class="modal-content">
+                                    <button class="modal-action modal-close waves-effect btn-flat right" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <div>
+                                        <h4 class="modal-title" id="myModalLabel">Veuillez confirmer</h4>
+                                        <p>Voulez-vous vraiment supprimer ce chapitre ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="modal-action modal-close waves-effect btn-flat">Annuler</button>
+                                        <a href="{{ path('admin_chapter_delete', {'id': chapter.id}) }}" class="btn waves-effect red lighten-1">Supprimer</a>
+                                    </div> <!-- modal footer -->
+                                </div> <!-- modal content -->
+                            </div>  <!-- modal -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+                <div class="card-panel orange white-text">
+                    Aucun chapitre trouvés.
+                </div>
+            {% endif %}
+            <div class="mt_btn right-align">
+                <a href="{{ path('admin_chapter_add') }}" class="btn-floating btn-large tooltipped waves-effect blue lighten-1" data-position="left" data-delay="30" data-tooltip="Ajouter un chapitre">
+                    <i class="material-icons">add</i>
+                </a>
+            </div>
+        </div> <!-- Chapters -->
     </div>
 </div>
     

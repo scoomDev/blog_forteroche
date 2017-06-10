@@ -19,8 +19,27 @@ class ArticleDAO extends DAO {
         if($row) {
             return $this->buildDomainObject($row);
         } else {
-            throw new \Exception("Aucun n'article ne correspond à votre demande ! " . $id);
+            throw new \Exception("Aucun article ne correspond à votre demande ! " . $id);
         }
+    }
+
+    /**
+     * return an article mathing the supplied chapter
+     *
+     * @param integer $chapter The article chapter
+     * @return \forteroche\Domain\Article | throws an exception if no matching article is found
+     */
+    public function findByChapter($chapter) {
+        $sql = "SELECT * FROM jf_articles WHERE chapt_number=?";
+        $result = $this->getDb()->fetchAll($sql, array($chapter));
+
+        // Convert query result to an array of domain objects
+        $articles = array();
+        foreach ($result as $row) {
+            $articleId = $row['art_id'];
+            $articles[$articleId] = $this->buildDomainObject($row);
+        }
+        return $articles;
     }
 
     /**
@@ -52,9 +71,10 @@ class ArticleDAO extends DAO {
         $article->setId($row['art_id']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
-        $article->setChapter($row['art_chapter']);
+        $article->setChapter($row['chapt_number']);
         $article->setAuthor($row['art_author']);
         $article->setDate($row['art_date']);
+
         return $article;
     }
 
@@ -62,7 +82,7 @@ class ArticleDAO extends DAO {
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
-            'art_chapter' => $article->getChapter()
+            'chapt_number' => $article->getChapter()
         );
 
         if($article->getId()) {

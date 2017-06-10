@@ -3,8 +3,10 @@
 use Symfony\Component\HttpFoundation\Request;
 use forteroche\Domain\Comment;
 use forteroche\Domain\Article;
+use forteroche\Domain\Chapter;
 use forteroche\Form\Type\CommentType;
 use forteroche\Form\Type\ArticleType;
+use forteroche\Form\Type\ChapterType;
 
 //-----------------------------------------------------------------------------
 // Home page / access to all articles
@@ -12,7 +14,6 @@ $app->get('/', function() use($app) {
     $articles = $app['dao.article']->findAll();
     return $app['twig']->render('index.html.twig', array('articles' => $articles));
 })->bind('home');
-
 
 // Access to an article
 $app->match('/article/{id}', function($id, Request $request) use($app) {
@@ -34,8 +35,8 @@ $app->match('/article/{id}', function($id, Request $request) use($app) {
 
 // Access to chapters
 $app->get('/chapters', function() use($app) {
-    $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('chapters.html.twig', array('articles' => $articles));
+    $chapters = $app['dao.chapter']->findAll();
+    return $app['twig']->render('chapters.html.twig', array('chapters' => $chapters));
 })->bind('chapters');
 
 // Access to about
@@ -53,15 +54,16 @@ $app->get('/login', function(Request $request) use($app) {
 
 
 // ADMIN
-// Article
-//-----------------------------------------------------------------------------
 // Access to admin
 $app->get('/admin', function() use($app) {
     $articles = $app['dao.article']->findAll();
     $comments = $app['dao.comment']->findAll();
-    return $app['twig']->render('admin.html.twig', array('articles' => $articles, 'comments' => $comments));
+    $chapters = $app['dao.chapter']->findAll();
+    return $app['twig']->render('admin.html.twig', array('articles' => $articles, 'comments' => $comments, 'chapters' => $chapters));
 })->bind('admin');
 
+// Article
+//-----------------------------------------------------------------------------
 // Add a new article
 $app->match('/admin/article/add', function(Request $request) use($app) {
     $article = new Article();
@@ -120,6 +122,43 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use($app
     $app['session']->getFlashbag()->add('success', 'Le commentaire à bien été supprimé.');
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_comment_delete');
+
+// Chapter
+//-----------------------------------------------------------------------------
+// Add a new chapitre
+$app->match('/admin/chapter/add', function(Request $request) use($app) {
+    $chapter = new Chapter();
+    $chapterForm = $app['form.factory']->create(ChapterType::class, $chapter);
+    $chapterForm->handleRequest($request);
+    if($chapterForm->isSubmitted() && $chapterForm->isValid()) {
+        $app['dao.chapter']->save($chapter);
+        $app['session']->getFlashBag()->add('success', 'Le nouvel chapter à bien été créé.');
+        return $app->redirect($app["url_generator"]->generate("admin"));
+    } else {
+        return $app['twig']->render('chapter_form.html.twig', array('title' => 'Créer un nouveau chapitre', 'chapterForm' => $chapterForm->createView()));
+    }
+})->bind('admin_chapter_add');
+
+// Edite an existing chapter
+$app->match('/admin/chapter/{id}/edit', function($id, Request $request) use($app) {
+    $chapter = $app['dao.chapter']->find($id);
+    $chapterForm = $app['form.factory']->create(ChapterType::class, $chapter);
+    $chapterForm->handleRequest($request);
+    if($chapterForm->isSubmitted() && $chapterForm->isValid()) {
+        $app['dao.chapter']->save($chapter);
+        $app['session']->getFlashBag()->add('success', "Le chapitre à bien été mis à jour.");
+        return $app->redirect($app["url_generator"]->generate("admin"));
+    } else {
+        return $app['twig']->render('chapter_form.html.twig', array('title' => 'Editer le chapitre', 'chapterForm' => $chapterForm->createView()));
+    }
+})->bind('admin_chapter_edit');
+
+// Remove an chapter
+$app->get('/admin/chapter/{id}/delete', function($id, Request $request) use ($app) {
+    $app['dao.chapter']->delete($id);
+    $app['session']->getFlashBag()->add('success', 'Le chapitre à bien été supprimé.');
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_chapter_delete');
 
 // TOOL
 //-----------------------------------------------------------------------------
