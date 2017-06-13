@@ -5,6 +5,10 @@ use forteroche\Domain\Comment;
 
 class CommentDAO extends DAO {
 
+    /**
+     *
+     * @var forteroche\DAO\ArticleDAO
+     */
     private $articleDAO;
 
     public function setArticleDAO(ArticleDAO $articleDAO) {
@@ -16,16 +20,43 @@ class CommentDAO extends DAO {
         $sql = "SELECT * FROM jf_comments WHERE art_id=?";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
-        $comments = array();
+        $comments = [];
         foreach($result as $row) {
             $comId = $row['com_id'];
             $comment = $this->buildDomainObject($row);
             $comment->setArticle($article);
             $comments[$comId] = $comment;
         }
-        return $comments;
+
+        $parentComments = array_filter($comments, function($comment) {
+            return $comment->getParentId() === NULL;
+        });
+
+        foreach ($parentComments as $parentComment) {
+            $this->setChildComments($comments, $parentComment);
+        }
+        return $parentComments;
     }
 
+    public function setChildComments($allComments, Comment $comment) {
+        $childComments = array_filter($allComments, function($childComment) use($comment) {
+            return $childComment->getParentId() === $comment->getId();
+        });
+
+        $comment->setChildren($childComments);
+        foreach ($childComments as $childComment) {
+            $this->setChildComments($allComments, $childComment);
+        }
+
+    }
+
+
+    /**
+     * Find a comment
+     *
+     * @param integer $id
+     * @return forteroche\Domain\Comment
+     */
     public function find($id) {
         $sql = "SELECT * FROM jf_comments WHERE com_id = ?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
@@ -37,16 +68,22 @@ class CommentDAO extends DAO {
         }
     }
 
+    /**
+     * Return a list of all comments, sorted by date (most recent first).
+     *
+     * @return array A list of all comments.
+     */
     public function findAll() {
-        $sql = 'SELECT * FROM jf_comments ORDER BY com_id DESC';
+        $sql = "SELECT * FROM jf_comments ORDER BY com_id DESC";
         $result = $this->getDb()->fetchAll($sql);
 
-        $entites = array();
+        // Convert query result to an array of domain objects
+        $comments = array();
         foreach ($result as $row) {
-            $id = $row['com_id'];
-            $entites[$id] = $this->buildDomainObject($row);
+            $commentId = $row['com_id'];
+            $comments[$commentId] = $this->buildDomainObject($row);
         }
-        return $entites;
+        return $comments;
     }
 
     public function buildDomainObject(array $row) {
@@ -57,6 +94,7 @@ class CommentDAO extends DAO {
         $comment->setParentId($row['com_parent']);
         $comment->setDate($row['com_date']);
         $comment->setArticle($row['art_id']);
+        $comment->setDepth($row['com_depth']);
 
         if(array_key_exists('art_id', $row)) {
             $articleId = $row['art_id'];
@@ -68,20 +106,33 @@ class CommentDAO extends DAO {
     }
 
     public function save(Comment $comment) {
+        $depth = 0;
+        if ($comment->getParentId() != null) {
+            $depth = $comment->getDepth() + 1;
+            if($comment->getDepth() != 0) {
+                $depth = 2;
+            }
+        }
         $commentData = array(
             'art_id' => $comment->getArticle()->getId(),
             'com_author' => $comment->getAuthor(),
             'com_content' => $comment->getContent(),
-            'com_date' => $comment->getDate()
+            'com_date' => $comment->getDate(),
+            'com_parent' => $comment->getParentId(),
+            'com_depth' => $depth
         );
-
+        
         if($comment->getId()) {
             $this->getDb()->update('jf_comments', $commentData, array('com_id' => $comment->getId()));
         } else {
+            if ($comment->getParentId() != null) {
+                $depth = $comment->getDepth() + 1;
+            }
             $this->getDb()->insert('jf_comments', $commentData);
             $id = $this->getDb()->lastInsertId();
             $comment->setId($id);
         }
+        var_dump($depth);
     }
 
     public function deleteAllByArticle($articleId) {

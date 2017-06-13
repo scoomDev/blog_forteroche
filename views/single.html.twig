@@ -1,6 +1,12 @@
 {% extends "layout.html.twig" %}
 {% block title %} {{article.title}} {% endblock title %}
 {% block content %}
+    <img class="img-header" src="/img/{{ article.image }}" alt="{{ article.title }}">
+    {% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="card-panel green white-text">
+        {{ flashMessage }}
+    </div>
+    {% endfor %} 
     <span class="text-tiny blue-grey-text text-darken-2 article-chapter-small hide-on-med-and-up">chapitre {{ article.chapter }}</span>
     <h1 class="chapter-title deep-orange-text center-align">{{article.title | upper}}</h1>
     <span class="text-tiny blue-grey-text text-darken-2 article-chapter hide-on-small-only">chapitre {{ article.chapter }}</span>
@@ -11,38 +17,28 @@
     <h4 class="blue-grey-text text-darken-2 mt100"><i class="material-icons small icon-bottom-small">comment</i> Commentaires <span class="text-tiny">(Il y a {{ nbrComments }} commentaire{{ nbrComments > 1 ? 's' : '' }})</span></h4>
     <hr>
     {% for comment in comments %}
-        <div class="card hoverable">
-            <div class="card-content">
-                <div class="card-title">
-                    <p>Le {{ comment.date | date('d/m/Y à H:i:s') }} - <strong>{{ comment.author }}</strong> :</p>  
-                </div>
-                 <p>{{ comment.content }}</p>
-            </div>
-            <div class="card-action right-align">
-                <button class="btn waves-effect waves-light blue-grey" type="button">Répondre</button>
-                <button class="btn waves-effect waves-light red" type="button">Signaler</button>
-            </div>
-        </div>
-        {% else %} Pas encore de commentaires. {% endfor %}
+        {% include 'inc/comment.html.twig' %}
+    {% endfor %}
+
+    <div id="form-comment">
         <h4 class="blue-grey-text text-darken-2 mt100"><i class="material-icons small icon-bottom-small">mode_edit</i> Ajouter un commentaire</h4>
-        <hr> {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="alert alert-success">
-            {{ flashMessage }}
-        </div>
-    {% endfor %} 
-    {% if commentForm %} 
-        {{ form_start(commentForm) }}
-        <div class="input-field">
-            {{ form_label(commentForm.author, 'Pseudo :', { 'label_attr': { 'for': 'pseudo' } }) }}
-            {{ form_widget(commentForm.author, { 'attr': { 'class': 'validate', 'id': 'pseudo'} }) }}
-        </div>
-        <div class="input-field">
-            {{ form_label(commentForm.content, 'Commentaire :', { 'label_attr': { 'for': 'comment' } }) }}
-            {{ form_errors(commentForm.content) }} {{ form_widget(commentForm.content, { 'attr': { 'rows': '4', 'class': 'validate materialize-textarea'} }) }}
-        </div>
-        <div class="mt_bottom right-align">
-            <button type="submit" class="btn-floating tooltipped btn-large green" data-position="left" data-delay="30" data-tooltip="Publier"><i class="material-icons left">done</i></button>
-        </div>
-        {{ form_end(commentForm) }} 
-    {% endif %}
+        <hr> 
+        {% if commentForm %} 
+            {{ form_start(commentForm) }}
+                {{ form_widget(commentForm.parent_id, { 'attr': { 'value': null } }) }}
+            <div class="input-field">
+                {{ form_label(commentForm.author, 'Pseudo :', { 'label_attr': { 'for': 'pseudo' } }) }}
+                {{ form_widget(commentForm.author, { 'attr': { 'class': 'validate', 'id': 'pseudo'} }) }}
+            </div>
+            <div class="input-field">
+                {{ form_label(commentForm.content, 'Commentaire :', { 'label_attr': { 'for': 'comment' } }) }}
+                {{ form_errors(commentForm.content) }} {{ form_widget(commentForm.content, { 'attr': { 'rows': '4', 'class': 'validate materialize-textarea'} }) }}
+            </div>
+            <div class="mt_bottom right-align">
+                <button type="submit" class="btn-floating tooltipped btn-large green" data-position="left" data-delay="30" data-tooltip="Publier"><i class="material-icons left">done</i></button>
+            </div>
+            {{ form_end(commentForm) }} 
+        {% endif %}
+    </div>
+    
 {% endblock content %}

@@ -11,6 +11,13 @@ class Article {
     private $id;
 
     /**
+     * Article image link
+     *
+     * @var string
+     */
+    private $image;
+
+    /**
      * Article title
      *
      * @var string
@@ -52,6 +59,15 @@ class Article {
 
     public function setId($id) {
         $this->id = $id;
+        return $this;
+    }
+
+    public function getImage() {
+        return $this->image;
+    }
+
+    public function setImage($image) {
+        $this->image = $image;
         return $this;
     }
 

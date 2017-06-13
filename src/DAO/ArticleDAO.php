@@ -69,6 +69,7 @@ class ArticleDAO extends DAO {
     protected function buildDomainObject(array $row) {
         $article = new Article();
         $article->setId($row['art_id']);
+        $article->setImage($row['art_image']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
         $article->setChapter($row['chapt_number']);

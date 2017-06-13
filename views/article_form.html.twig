@@ -4,7 +4,9 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
-    <h2 class="blue-grey-text text-darken-2"><i class="material-icons medium icon-bottom-medium">mode_edit</i> {{ block('title') }}</h2>
+    <h2 class="blue-grey-text text-darken-2">
+        <i class="material-icons medium icon-bottom-medium">mode_edit</i> {{ block('title') }}
+    </h2>
     <hr>
     {% for flashMessage in app.session.flashBag.get('success') %}
         <div class="card-panel green">
@@ -12,32 +14,33 @@
         </div>
     {% endfor %}
 
-    <div class="container">
-        {{ form_start(articleForm) }}
-        <div>
-            {{ form_label(articleForm.title, null) }}
-            <div class="input-field">
-                {{ form_errors(articleForm.title) }}
-                {{ form_widget(articleForm.title) }}
-            </div>
-        </div>
-        <div>
-            {{ form_label(articleForm.chapter, null) }}
+    {{ form_start(articleForm)}}
+    <div class="row">
+        <div class="col s12 m6">
             <div class="input-field">
                 {{ form_errors(articleForm.chapter) }}
                 {{ form_widget(articleForm.chapter) }}
+                {{ form_label(articleForm.chapter, null) }}
             </div>
         </div>
-        <div>
+        <div class="col s12 m6">
             <div class="input-field">
-                {{ form_errors(articleForm.content) }}
-                {{ form_widget(articleForm.content) }}
-            </div>
+            {{ form_errors(articleForm.title) }}
+            {{ form_widget(articleForm.title) }}
+            {{ form_label(articleForm.title, null) }}
         </div>
-        <div class="mt_btn right-align">
-            <button class="btn-floating btn-large tooltipped green lighten-1" type="submit" data-position="left" data-delay="30" data-tooltip="Sauvegarder"><i class="material-icons">save</i></button>
         </div>
-
-        {{ form_end(articleForm) }}
+        
     </div>
+    <div class="row">
+        <div class="input-field">
+            {{ form_errors(articleForm.content) }}
+            {{ form_widget(articleForm.content) }}
+        </div>
+    </div>
+    <div class="mt_btn right-align">
+        <button class="btn-floating btn-large tooltipped green lighten-1" type="submit" data-position="left" data-delay="30" data-tooltip="Sauvegarder"><i class="material-icons">save</i></button>
+    </div>
+
+    {{ form_end(articleForm) }}
 {% endblock content %}

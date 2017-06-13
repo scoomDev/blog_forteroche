@@ -74,7 +74,10 @@ $app->match('/admin/article/add', function(Request $request) use($app) {
         $app['session']->getFlashBag()->add('success', 'Le nouvel article à bien été créé.');
         return $app->redirect($app["url_generator"]->generate("admin"));
     } else {
-        return $app['twig']->render('article_form.html.twig', array('title' => 'Créer un nouvel article', 'articleForm' => $articleForm->createView()));
+        return $app['twig']->render('article_form.html.twig', array(
+            'title' => 'Créer un nouvel article', 
+            'articleForm' => $articleForm->createView(),
+        ));
     }
 })->bind('admin_article_add');
 

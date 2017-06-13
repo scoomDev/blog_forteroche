@@ -7,6 +7,9 @@
     {% for article in articles %}
         <div class="col m12 l6">
             <div class="card card-article hoverable blue-grey">
+                <div class="card-image">
+                    <img src="img/{{ article.image }}" alt="{{ article.title }}">
+                </div>
                 <div class="card-content white-text">
                     <h3 class="card-title">{{article.title | upper}}</h3>
                     <p>{{ article.content | truncate(160) | raw }}</p>

@@ -1,0 +1,18 @@
+<div id="comment-{{comment.id}}" class="card blue-grey lighten-5">
+    <div class="card-content">
+        <p>Le {{ comment.date | date('d/m/Y à H:i:s') }} - <strong>{{ comment.author }}</strong> :</p>
+        <hr>
+        <p>{{ comment.content }}</p>
+    </div>
+    <div class="right-align card-action">
+        <button class="btn waves-effect waves-light blue-grey reply" type="button" data-id="{{comment.id}}">Répondre</button>
+        <button class="btn waves-effect waves-light red" type="button">Signaler</button>
+    </div>
+</div>
+<div class="reply-comment">
+    {% if comment.children is defined %}
+        {% for comment in comment.children %}
+            {% include 'inc/comment.html.twig' %}
+        {% endfor %}
+    {% endif %}
+</div>

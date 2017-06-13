@@ -31,6 +31,7 @@ class Comment {
      */
     private $parentId;
 
+
     /**
      * Comment date
      *
@@ -39,11 +40,20 @@ class Comment {
     private $date;
 
     /**
+     * Associated comment
+     *
+     * @var forteroche\Domain\Comment
+     */
+    private $children;
+
+    /**
      * Associated article
      *
      * @var forteroche\Domain\Article
      */
     private $article;
+
+    private $depth;
 
     // GETTERS & SETTERS
     public function getId() {
@@ -91,12 +101,31 @@ class Comment {
         return $this;
     }
 
+
+    public function getChildren() {
+        return $this->children;
+    }
+
+    public function setChildren(array $children) {
+        $this->children = $children;
+        return $this;
+    }
+
     public function getArticle() {
         return $this->article;
     }
 
     public function setArticle($article) {
         $this->article = $article;
+        return $this;
+    }
+
+    public function getDepth() {
+        return $this->depth;
+    }
+
+    public function setDepth($depth) {
+        $this->depth = $depth;
         return $this;
     }
 }

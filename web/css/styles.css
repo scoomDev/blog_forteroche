@@ -26,16 +26,16 @@ hr {
 }
 
 .card-article {
-    height: 380px;
+    height: 510px;
 }
 
 .card-content h3 {
     font-size: 2rem;
 }
 
-.bottom {
-    position: absolute;
-    bottom: 0;
+
+.img-header {
+    width: 100%;
 }
 
 .article-chapter {
@@ -49,8 +49,12 @@ hr {
     margin-bottom: -25px;
 }
 
-.text-tiny {
-    font-size: 1.2rem;
+.image-label {
+    font-size: 1.5rem;
+}
+
+.reply-comment {
+    margin-left: 75px;
 }
 
 .chapter-title {
@@ -73,13 +77,27 @@ footer {
     color: white;
 }
 
-/* HELPERS */
+/* HELPERS 
+-------------------------------------------------------------------------------------------*/
+
+.text-tiny {
+    font-size: 1.2rem;
+}
+
 .mt100 {
     margin-top: 100px;
 }
 
 .mt_btn{
     margin-top: 10px;
+}
+.mb_btn{
+    margin-bottom: 10px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
 }
 
 .icon-bottom-tiny {
