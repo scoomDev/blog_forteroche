@@ -53,7 +53,19 @@ class Comment {
      */
     private $article;
 
+    /**
+     * Comment depth
+     *
+     * @var integer
+     */
     private $depth;
+
+    /**
+     * Comment reporting
+     *
+     * @var integer or null
+     */
+    private $reporting;
 
     // GETTERS & SETTERS
     public function getId() {
@@ -126,6 +138,15 @@ class Comment {
 
     public function setDepth($depth) {
         $this->depth = $depth;
+        return $this;
+    }
+
+    public function getReporting() {
+        return $this->reporting;
+    }
+
+    public function setReporting($reporting) {
+        $this->reporting = $reporting;
         return $this;
     }
 }

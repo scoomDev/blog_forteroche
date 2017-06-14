@@ -16,6 +16,7 @@
 
     <div class="container">
         {{ form_start(commentForm) }}
+            {{ form_widget(commentForm.reporting, { 'attr': { 'value': null } }) }}
             <div>
                 {{ form_label(commentForm.author) }}
                 <div class="input-field">

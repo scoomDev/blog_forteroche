@@ -6,12 +6,15 @@ $(document).ready(function(){
         var $this = $(this);
         var parent_id = $this.attr('data-id');
         var $comment = $('#comment-' + parent_id);
+        var dataDepth = $comment.attr('data-depth');
+        var $depth = $('#comment_depth');
 
-        console.log($form)
-        console.log($this) 
-        console.log(parent_id)
-        console.log($comment)
-        
+        if (dataDepth == 0) {
+            $depth.val(1);
+        } else {
+            $depth.val(2);
+        }
+
         $form.find('h4').text('Répondre à ce commentaire');
         $('#comment_parent_id').val(parent_id);
         $comment.after($form);

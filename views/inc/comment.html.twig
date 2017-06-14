@@ -1,12 +1,18 @@
-<div id="comment-{{comment.id}}" class="card blue-grey lighten-5">
+<div id="comment-{{comment.id}}" data-depth="{{comment.depth}}" class="card blue-grey lighten-5">
     <div class="card-content">
         <p>Le {{ comment.date | date('d/m/Y à H:i:s') }} - <strong>{{ comment.author }}</strong> :</p>
         <hr>
         <p>{{ comment.content }}</p>
     </div>
     <div class="right-align card-action">
-        <button class="btn waves-effect waves-light blue-grey reply" type="button" data-id="{{comment.id}}">Répondre</button>
-        <button class="btn waves-effect waves-light red" type="button">Signaler</button>
+        {% if comment.depth < '2' %}
+            <button class="btn waves-effect waves-light blue-grey reply" type="button" data-id="{{comment.id}}">Répondre</button>
+        {% endif %}
+        {% if comment.reporting == null %}
+            <a class="btn waves-effect waves-light red" href="{{ path('comment_report', { 'id': comment.id }) }}">Signaler</a>
+        {% else %}
+            <span class="report orange">Ce commentaire à été signalé comme indésirable</span>
+        {% endif %}
     </div>
 </div>
 <div class="reply-comment">

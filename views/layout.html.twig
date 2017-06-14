@@ -69,6 +69,7 @@
         {% endif %}
     </footer>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!-- Tiny MCE -->
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=rmn7wfydsgzro3alm5wnbd1e2czouq6aymkzocgwo9iqgtbh"></script>
     <script type="text/javascript">
@@ -76,6 +77,11 @@
             selector:'#article_content',
             language: 'fr_FR',
             language_url : '/js/tinymce/js/langs/fr_FR.js',
+            setup: function(editor) {
+                editor.on('submit', function(e) {
+                    console.log('submit event', e);
+                });
+            },
             plugins: [
                 'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
                 'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
@@ -89,9 +95,9 @@
     </script>
 
     <!-- Materialize JS -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
     <script src="{{ asset ('js/app.js')}}"></script>
+    
     <!-- Personal JS -->
     <script src="{{ asset ('js/comment.js')}}"></script>
 </body>

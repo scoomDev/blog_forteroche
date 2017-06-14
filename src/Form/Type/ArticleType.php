@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
             /*->add('image', FileType::class, ['label' => 'Choisissez une image d\'en-tête'])*/
             ->add('title', TextType::class, ['label' => 'Titre'])
             ->add('chapter', TextType::class, [ 'label' => 'Chapitre' ])
-            ->add('content', TextareaType::class);
+            ->add('content', TextareaType::class, [ 'required' => false ]);
     }
 
     public function getName()

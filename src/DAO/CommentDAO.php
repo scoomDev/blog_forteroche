@@ -47,9 +47,7 @@ class CommentDAO extends DAO {
         foreach ($childComments as $childComment) {
             $this->setChildComments($allComments, $childComment);
         }
-
     }
-
 
     /**
      * Find a comment
@@ -95,44 +93,34 @@ class CommentDAO extends DAO {
         $comment->setDate($row['com_date']);
         $comment->setArticle($row['art_id']);
         $comment->setDepth($row['com_depth']);
+        $comment->setReporting($row['com_reporting']);
 
         if(array_key_exists('art_id', $row)) {
             $articleId = $row['art_id'];
             $article = $this->articleDAO->find($articleId);
             $comment->setArticle($article);
         }
-
         return $comment;
     }
 
     public function save(Comment $comment) {
-        $depth = 0;
-        if ($comment->getParentId() != null) {
-            $depth = $comment->getDepth() + 1;
-            if($comment->getDepth() != 0) {
-                $depth = 2;
-            }
-        }
         $commentData = array(
             'art_id' => $comment->getArticle()->getId(),
             'com_author' => $comment->getAuthor(),
             'com_content' => $comment->getContent(),
             'com_date' => $comment->getDate(),
             'com_parent' => $comment->getParentId(),
-            'com_depth' => $depth
+            'com_depth' => $comment->getDepth(),
+            'com_reporting' => $comment->getReporting(),
         );
         
         if($comment->getId()) {
             $this->getDb()->update('jf_comments', $commentData, array('com_id' => $comment->getId()));
         } else {
-            if ($comment->getParentId() != null) {
-                $depth = $comment->getDepth() + 1;
-            }
             $this->getDb()->insert('jf_comments', $commentData);
             $id = $this->getDb()->lastInsertId();
             $comment->setId($id);
         }
-        var_dump($depth);
     }
 
     public function deleteAllByArticle($articleId) {
@@ -143,8 +131,15 @@ class CommentDAO extends DAO {
         $this->getDb()->delete('jf_comments', array('com_id' => $id));
     }
 
+    public function report($comment) {
+        $commentData = [
+            'com_reporting' => 1
+        ];
+
+        $this->getDb()->update('jf_comments', $commentData, array('com_id' => $comment->getId()));
+    }
+
     public function countComments($id){
         return count($this->findAllByArticle($id));
     }
-
 }

@@ -126,6 +126,14 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use($app
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_comment_delete');
 
+// Report a comment
+$app->get('/comment/{id}/report', function($id, Request $request) use($app) {
+    $comment = $app['dao.comment']->find($id);
+    $app['dao.comment']->report($comment);
+    $app['session']->getFlashbag()->add('success', 'Le commentaire à bien été signalé.');
+    return $app->redirect($app['url_generator']->generate('article', ['id' => $comment->getArticle()->getId()]));
+})->bind('comment_report');
+
 // Chapter
 //-----------------------------------------------------------------------------
 // Add a new chapitre
