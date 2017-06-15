@@ -49,10 +49,9 @@
             </div>
         </nav>
     </div>
-
-    <div class="container">
-        {% block content %} {% endblock content %}
-    </div>
+    
+    {% block intro %} {% endblock intro %}
+    {% block content %} {% endblock content %}
 
     <footer class="page-footer blue-grey darken-2">
         <div class="footer-copyright">
@@ -82,6 +81,7 @@
                     console.log('submit event', e);
                 });
             },
+            min_height: 300,
             plugins: [
                 'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
                 'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',

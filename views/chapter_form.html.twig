@@ -4,6 +4,7 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
+<div class="container">
     <h2 class="blue-grey-text text-darken-2"><i class="material-icons medium icon-bottom-medium">mode_edit</i> {{ block('title') }}</h2>
     <hr>
     {% for flashMessage in app.session.flashBag.get('success') %}
@@ -27,4 +28,5 @@
 
         {{ form_end(chapterForm) }}
     </div>
+</div>
 {% endblock content %}

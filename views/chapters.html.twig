@@ -1,20 +1,22 @@
 {% extends "layout.html.twig" %} 
 {% block title %} Les chapitres {% endblock title %} 
 {% block content %}
-<h2 class="blue-grey-text text-darken-2">Tous les chapitres</h2>
-<hr>
 <div class="container">
-    {% for chapter in chapters %}
-        <h3 class="deep-orange-text">Chapitre {{ chapter.number }}</h3>
-        <div class="divider"></div>
-        {% for article in chapter.article %}
-            <section>
-                <h4><a href="/article/{{article.id}}">{{article.title}}</a></h4>
-                <p>{{ article.content | truncate(320) | striptags }}</p>
-            </section>
-            
-        {% endfor %}
+    <h2 class="blue-grey-text text-darken-2">Tous les chapitres</h2>
+    <hr>
+    <div class="container">
+        {% for chapter in chapters %}
+            <h3 class="deep-orange-text">Chapitre {{ chapter.number }}</h3>
+            <div class="divider"></div>
+            {% for article in chapter.article %}
+                <section>
+                    <h4><a href="/article/{{article.id}}">{{article.title}}</a></h4>
+                    <p>{{ article.content | truncate(320) | striptags }}</p>
+                </section>
+                
+            {% endfor %}
 
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}

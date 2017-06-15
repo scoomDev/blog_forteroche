@@ -4,6 +4,7 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
+<div class="container">
     <h2 class="blue-grey-text text-darken-2">
         <i class="material-icons medium icon-bottom-medium">mode_edit</i> {{ block('title') }}
     </h2>
@@ -43,4 +44,5 @@
     </div>
 
     {{ form_end(articleForm) }}
+</div>
 {% endblock content %}

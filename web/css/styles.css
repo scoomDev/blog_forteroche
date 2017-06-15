@@ -57,6 +57,10 @@ hr {
     margin-left: 75px;
 }
 
+.parallax-container {
+    height:50vh;
+}
+
 .report {
     text-decoration: none;
     color: #fff;

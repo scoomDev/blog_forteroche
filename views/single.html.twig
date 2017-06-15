@@ -1,6 +1,7 @@
 {% extends "layout.html.twig" %}
 {% block title %} {{article.title}} {% endblock title %}
 {% block content %}
+<div class="container">
     <img class="img-header" src="/img/{{ article.image }}" alt="{{ article.title }}">
     {% for flashMessage in app.session.flashbag.get('success') %}
     <div class="card-panel green white-text">
@@ -42,5 +43,5 @@
             {{ form_end(commentForm) }} 
         {% endif %}
     </div>
-    
+</div>
 {% endblock content %}

@@ -1,28 +1,54 @@
 {% extends "layout.html.twig" %}
-{% block title %}Les articles {% endblock title %} 
+{% block title %}Bienvenue{% endblock title %}
+{% block intro %}
+<div class="parallax-container">
+    <div class="parallax">
+        <h1 class="white-text center-align" style='z-index:99;'>Bienvenue sur mon blog</h1>
+        <span>Billet simple pour l'alaska</span>
+        <img src="{{ asset('img/alaska_01.jpg') }}" alt="">
+    </div>
+</div>
+<div class="section white">
+    <div class="row container">
+        <h1>Bienvenue sur mon blog</h1>
+        <span>Billet simple pour l'Alaska</span>
+    </div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+        <h1 class="white-text center-align" style='z-index:99;'>Bienvenue sur mon blog</h1>
+        <span>Billet simple pour l'alaska</span>
+        <img src="{{ asset('img/alaska_02.jpg') }}" alt="">
+    </div>
+</div>
+{% endblock intro %}
 {% block content %}
-<h2 class="blue-grey-text text-darken-2">Tous les articles</h2>
-<hr>
-<div class="row">
-    {% for article in articles %}
-        <div class="col m12 l6">
-            <div class="card card-article hoverable blue-grey">
-                <div class="card-image">
-                    <img src="img/{{ article.image }}" alt="{{ article.title }}">
+<div class="section white">
+    <div class="row container">
+        <h2 class="blue-grey-text text-darken-2">Les derniers articles</h2>
+        <hr>
+        <div class="row">
+            {% for article in articles %}
+                <div class="col m12 l6">
+                    <div class="card card-article hoverable blue-grey">
+                        <div class="card-image">
+                            <img src="img/{{ article.image }}" alt="{{ article.title }}">
+                        </div>
+                        <div class="card-content white-text">
+                            <h3 class="card-title">{{article.title | upper}}</h3>
+                            <p>{{ article.content | truncate(160) | raw }}</p>
+                        </div>
+                        <div class="card-content bottom white-text">
+                            <p>Chapitre {{ article.chapter }}</p>
+                            <p><strong>{{article.author}}</strong> - <em>{{article.date | date('d/m/Y')}}</em></p>
+                        </div>
+                        <div class="card-action right-align">
+                            <a href=" {{ path('article', { 'id': article.id }) }}" class="orange-text"><i class="material-icons tiny icon-bottom-tiny">add</i> Lire la suite</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-content white-text">
-                    <h3 class="card-title">{{article.title | upper}}</h3>
-                    <p>{{ article.content | truncate(160) | raw }}</p>
-                </div>
-                <div class="card-content bottom white-text">
-                    <p>Chapitre {{ article.chapter }}</p>
-                    <p><strong>{{article.author}}</strong> - <em>{{article.date | date('d/m/Y')}}</em></p>
-                </div>
-                <div class="card-action right-align">
-                    <a href=" {{ path('article', { 'id': article.id }) }}" class="orange-text"><i class="material-icons tiny icon-bottom-tiny">add</i> Lire la suite</a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 </div>
 {% endblock content %}
