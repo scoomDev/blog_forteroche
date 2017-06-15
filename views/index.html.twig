@@ -3,22 +3,18 @@
 {% block intro %}
 <div class="parallax-container">
     <div class="parallax">
-        <h1 class="white-text center-align" style='z-index:99;'>Bienvenue sur mon blog</h1>
-        <span>Billet simple pour l'alaska</span>
-        <img src="{{ asset('img/alaska_01.jpg') }}" alt="">
+        <img src="{{ asset('img/alaska_06.jpg') }}" alt="">
     </div>
 </div>
-<div class="section white">
+<div class="section white z-depth-3">
     <div class="row container">
-        <h1>Bienvenue sur mon blog</h1>
-        <span>Billet simple pour l'Alaska</span>
+        <h1 class="blue-grey-text text-darken-2 center-align">Bienvenue sur mon blog</h1>
+        <h4 class="right-align orange-text">Billet simple pour l'Alaska</h3>             
     </div>
 </div>
 <div class="parallax-container">
     <div class="parallax">
-        <h1 class="white-text center-align" style='z-index:99;'>Bienvenue sur mon blog</h1>
-        <span>Billet simple pour l'alaska</span>
-        <img src="{{ asset('img/alaska_02.jpg') }}" alt="">
+        <img src="{{ asset('img/alaska_07.jpg') }}" alt="">
     </div>
 </div>
 {% endblock intro %}
@@ -31,8 +27,8 @@
             {% for article in articles %}
                 <div class="col m12 l6">
                     <div class="card card-article hoverable blue-grey">
-                        <div class="card-image">
-                            <img src="img/{{ article.image }}" alt="{{ article.title }}">
+                        <div class="card-image img-header-block">
+                            <img class="img-header" src="img/{{ article.image }}" alt="{{ article.title }}">
                         </div>
                         <div class="card-content white-text">
                             <h3 class="card-title">{{article.title | upper}}</h3>

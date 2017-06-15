@@ -7,4 +7,6 @@ $(document).ready(function(){
     $('.tooltiped').tooltip();
     $('.button-collapse').sideNav();
     $('.parallax').parallax();
+    $('.tap-target').tapTarget('open');
+    $('.tap-target').tapTarget('close');
 })
