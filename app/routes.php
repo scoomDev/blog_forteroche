@@ -70,6 +70,7 @@ $app->match('/admin/article/add', function(Request $request) use($app) {
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
+        $app['dao.article']->upImg($article);
         $app['dao.article']->save($article);
         $app['session']->getFlashBag()->add('success', 'Le nouvel article à bien été créé.');
         return $app->redirect($app["url_generator"]->generate("admin"));
@@ -87,6 +88,7 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
+        $app['dao.article']->upImg($article);
         $app['dao.article']->save($article);
         $app['session']->getFlashBag()->add('success', "L'article à bien été mis à jour.");
         return $app->redirect($app["url_generator"]->generate("admin"));

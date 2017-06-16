@@ -7,16 +7,20 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use forteroche\Domain\Chapter;
+use Symfony\Component\HttpFoundation\File\File;
+use forteroche\Domain\Article;
 
 class ArticleType extends AbstractType
 { 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $article = new Article();
         $builder
-            ->add('image', FileType::class, ['label' => 'Choisissez une image d\'en-tête'])
+            ->add('image', FileType::class, [
+                'label' => 'Choisissez une image d\'en-tête', 
+                'data_class' => null
+            ])
             ->add('title', TextType::class, ['label' => 'Titre'])
             ->add('chapter', TextType::class, [ 'label' => 'Chapitre' ])
             ->add('content', TextareaType::class, [ 'required' => false ]);
@@ -25,5 +29,12 @@ class ArticleType extends AbstractType
     public function getName()
     {
         return 'article';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => Article::class,
+        ));
     }
 }

@@ -79,9 +79,18 @@ class ArticleDAO extends DAO {
         return $article;
     }
 
+    public function upImg($article) {
+        $image = $article->getImage();
+        $url = '../web/img';
+        $fileName = md5(uniqid()).'.'.$image->guessExtension();
+        $image->move($url, $fileName);
+        $article->setImage($fileName);
+    }
+
     public function save(Article $article) {
         $articleData = array(
             'art_title' => $article->getTitle(),
+            'art_image' => $article->getImage(),
             'art_content' => $article->getContent(),
             'chapt_number' => $article->getChapter()
         );
