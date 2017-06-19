@@ -1,11 +1,11 @@
 {
     "name": "Blog de Jean Forteroche",
     "description": "projet 3 de la formation OpenclassRooms",
-    "authors": {
+    "authors": [{
         "name": "Soetaert Christopher",
         "email": "soetaert.chris@gmail.com",
         "role": "Developer"
-    },
+    }],
     "require": {
         "silex/silex": "~2.0",
         "doctrine/dbal": "~2.5",
