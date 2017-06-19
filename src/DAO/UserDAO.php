@@ -69,10 +69,64 @@ class UserDAo extends DAO implements UserProviderInterface {
     protected function buildDomainObject(array $row) {
         $user = new User();
         $user->setId($row['usr_id']);
+        $user->setEmail($row['usr_email']);
         $user->setUsername($row['usr_name']);
         $user->setPassword($row['usr_password']);
         $user->setSalt($row['usr_salt']);
         $user->setRole($row['usr_role']);
         return $user;
+    }
+
+    // Recovery password
+    public function mailExist($mail) {
+        $sql = 'SELECT usr_id FROM jf_user WHERE usr_email = ?';
+        $row = $this->getDb()->prepare($sql);
+        $row->execute([$mail]);
+
+        return $row->rowCount();
+    }
+
+    public function insertCode($mail, $code) {
+        $sql = 'SELECT recovery_id FROM jf_recovery WHERE recovery_mail=?';
+        $row = $this->getDb()->prepare($sql);
+        $row->execute([$mail]);
+        $recovery_mail_exist = $row->rowCount();
+
+        if($recovery_mail_exist == 1) {
+            $sql_update = 'UPDATE jf_recovery SET recovery_code=? WHERE recovery_mail=?';
+            $row_update = $this->getDb()->prepare($sql_update);
+            $row_update->execute([$code, $mail]);
+        } else {
+            $sql_update = 'INSERT INTO jf_recovery(recovery_mail, recovery_code) VALUES (?,?)';
+            $row_update = $this->getDb()->prepare($sql_update);
+            $row_update->execute([$mail, $code]);
+        }
+    }
+
+    public function recoveryFind($mail) {
+        $sql = "SELECT * FROM jf_user where usr_email = ?";
+        $row = $this->getDb()->fetchAssoc($sql, array($mail));
+        return $row;
+    }
+
+    public function checkValid($check_mail, $code) {
+        $check_code = intval(htmlspecialchars($code));
+        $sql_valid = 'SELECT recovery_id FROM jf_recovery WHERE recovery_code = ? AND recovery_mail = ?';
+        $row_valid = $this->getDb()->prepare($sql_valid);
+        $row_valid->execute([$check_code, $check_mail]);
+
+        return $row_valid->rowCount();
+    }
+
+    public function delRecovery($check_mail) {
+        $del_req = 'DELETE FROM jf_recovery WHERE recovery_mail = ?';
+        $del_row = $this->getDb()->prepare($del_req);
+        $del_row->execute([$check_mail]);
+    }
+
+    public function updatePwd($mail, $pwd) {
+        $sql = 'UPDATE jf_user SET usr_password = ? WHERE usr_email = ?';
+        $row = $this->getDb()->prepare($sql);
+        $row->execute([$pwd, $mail]);
     }
 }

@@ -23,7 +23,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'pattern' => '^/',
             'anonymous' => true,
             'logout' => true,
-            'form' => array('login_path' => '/login', 'chack_path' => '/login_chack'),
+            'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
             'users' => function() use($app) {
                 return new forteroche\DAO\UserDAO($app['db']);
             }
@@ -61,4 +61,7 @@ $app['dao.chapter'] = function($app) {
 };
 $app['dao.user'] = function($app) {
     return new forteroche\DAO\UserDAO($app['db']);
+};
+$app['dao.header'] = function($app) {
+    return new forteroche\DAO\HeaderDAO($app['db']);
 };

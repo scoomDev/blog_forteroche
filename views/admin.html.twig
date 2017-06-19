@@ -23,6 +23,9 @@
                 <li class="tab col s3">
                     <a class="blue-grey-text" href="#chapters"><i class="material-icons tiny icon-bottom-tiny">library_books</i> Chapitres</a>
                 </li>
+                <li class="tab col s3">
+                    <a class="blue-grey-text" href="#header"><i class="material-icons tiny icon-bottom-tiny">view_day</i> En-tête de l'acceuil</a>
+                </li>
             </ul>
         </div> <!-- Categories -->
         <div class="col s12" id="articles">
@@ -176,7 +179,57 @@
                 </a>
             </div>
         </div> <!-- Chapters -->
-        </div>
+        <div class="col s12" id="header">
+            {% if header %}
+            <div>
+                <table class="responsive-table highlight centered bordered">
+                    <thead>
+                        <tr>
+                            <th>Image 1</th>
+                            <th>Titre</th>
+                            <th>sous-titre</th>
+                            <th>Image 2</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="width:200px;">
+                                    <img src="{{ asset('img/' ~header.image1 ) }}" alt="Photo de l'Alaska" style="width:100%;">
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <p>{{ header.title }}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <p>{{ header.subtitle }}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width:200px;">
+                                    <img src="{{ asset('img/' ~header.image2 ) }}" alt="Photo de l'Alaska" style="width:100%;">
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn tooltipped waves-effect blue lighten-1" href="{{ path('admin_header_edit', { 'id': header.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
+                                    <i class="material-icons">mode_edit</i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+            </div>
+            {% else %}
+                <div class="card-panel orange white-text">
+                    Aucune en-tête de trouvés.
+                </div>
+            {% endif %}
+        </div> <!-- Header -->
     </div>
 </div>
 {% endblock content %}

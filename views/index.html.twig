@@ -3,18 +3,18 @@
 {% block intro %}
 <div class="parallax-container">
     <div class="parallax">
-        <img src="{{ asset('img/alaska_06.jpg') }}" alt="">
+        <img src="{{ asset('img/' ~header.image1 ) }}" alt="Photo de l'Alaska">
     </div>
 </div>
 <div class="section white z-depth-3">
     <div class="row container">
-        <h1 class="blue-grey-text text-darken-2 center-align">Bienvenue sur mon blog</h1>
-        <h4 class="right-align orange-text">Billet simple pour l'Alaska</h3>             
+        <h1 class="blue-grey-text text-darken-2 center-align">{{ header.title }}</h1>
+        <h4 class="right-align orange-text">{{ header.subtitle }}</h3>             
     </div>
 </div>
 <div class="parallax-container">
     <div class="parallax">
-        <img src="{{ asset('img/alaska_07.jpg') }}" alt="">
+        <img src="{{ asset('img/' ~header.image2 ) }}" alt="Photo de l'Alaska">
     </div>
 </div>
 {% endblock intro %}

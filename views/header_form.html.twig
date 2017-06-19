@@ -1,0 +1,82 @@
+{% extends "layout.html.twig" %}
+{% set adminMenu = true %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2 class="blue-grey-text text-darken-2">
+        <i class="material-icons medium icon-bottom-medium">mode_edit</i> {{ block('title') }}
+    </h2>
+    <hr>
+    {% for flashMessage in app.session.flashBag.get('success') %}
+        <div class="card-panel green">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(headerForm)}}
+    <div class="row">
+        <div class="col s10">
+            <h5 class="blue-grey-text">>> Modifier la 1ère image</h5>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Mes fichiers</span>
+                    {{ form_errors(headerForm.image1) }}
+                    {{ form_widget(headerForm.image1) }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col s2 center-align">
+            <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="Le format idéal pour vos images doit être 1920px*700px et les fichiers doivent être en '.jpg', '.jpeg', ou '.png'">
+                <i class="material-icons medium orange-text info no-pointer">info</i>
+            </a>
+        </div>
+    </div>
+    <h5 class="blue-grey-text">>> Contenu du bandeau</h5>
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="input-field">
+                {{ form_errors(headerForm.title) }}
+                {{ form_widget(headerForm.title) }}
+                {{ form_label(headerForm.title, null) }}
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="input-field">
+                {{ form_errors(headerForm.subtitle) }}
+                {{ form_widget(headerForm.subtitle) }}
+                {{ form_label(headerForm.subtitle, null) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s10">
+            <h5 class="blue-grey-text">>> Modifier la 2ème image</h5>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Mes fichiers</span>
+                    {{ form_errors(headerForm.image2) }}
+                    {{ form_widget(headerForm.image2) }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col s2 center-align">
+            <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="Le format idéal pour vos images doit être 1920px*700px et les fichiers doivent être en '.jpg', '.jpeg', ou '.png'">
+                <i class="material-icons medium orange-text info no-pointer">info</i>
+            </a>
+        </div>
+    </div>
+    <div class="mt_btn right-align">
+        <button class="btn-floating btn-large tooltipped green lighten-1" type="submit" data-position="left" data-delay="30" data-tooltip="Sauvegarder"><i class="material-icons">save</i></button>
+    </div>
+
+    {{ form_end(headerForm) }}
+</div>
+{% endblock content %}

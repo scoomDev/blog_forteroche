@@ -1,22 +1,94 @@
-{% extends 'layout.html.twig' %} 
+{% extends 'layout.html.twig' %}
+{% block title %}
+    Connectez-vous
+{% endblock title %}
 {% block content %}
+{% if current_uri == '/login/recovery' %}
+<!-- Recovery form -->
+<div class="container">
+    <h4 class="blue-grey-text text-darken-2">Récupération de mot de passe</h4>
+    <hr>
+    {% for flashMessage in app.session.flashBag.get('success') %}
+        <div class="card-panel green">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashBag.get('error') %}
+        <div class="card-panel red white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <form method="post" action="{{ path('recovery') }}" class="col s12">
+        <div class="input-field">
+            <label for="recovery_mail">Votre adresse email</label>
+            <input type="text" name="recovery_mail" id="recovery_mail">
+        </div>
+        <div class="input-field">
+            <button name="recovery_submit" type="submit" class="btn-floating tooltipped waves-effect btn-large green lighten-1" data-position="right" data-delay="30" data-tooltip="Envoyer l'email de récupération">
+                <i class="material-icons left">send</i>
+            </button>
+        </div>
+    </form>
+</div>
+{% elseif current_uri == '/login/recovery/confirm' %}
+<!-- Check form -->
+<div class="container">
+    <h4 class="blue-grey-text text-darken-2">Réinitialisation du mot de passe</h4>
+    <hr>
+    {% for flashMessage in app.session.flashBag.get('success') %}
+        <div class="card-panel green white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashBag.get('error') %}
+        <div class="card-panel red white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <form method="post" action="{{ path('recovery.confirm') }}" class="col s12">
+        <div class="input-field">
+            <label for="check_code">Votre code de réinitialisation</label>
+            <input type="text" name="check_code" id="check_code">
+        </div>
+        <div class="input-field">
+            <button name="check_submit" type="submit" class="btn-floating tooltipped waves-effect btn-large green lighten-1" data-position="right" data-delay="30" data-tooltip="Valider">
+                <i class="material-icons left">done</i>
+            </button>
+        </div>
+    </form>
+</div>
+{% else %}
+<!-- Login form -->
 <div class="container">
     <h2 class="blue-grey-text text-darken-2"><i class="material-icons large icon-bottom-large">person</i> Authentification</h2>
     <hr>
+    {% for flashMessage in app.session.flashBag.get('success') %}
+        <div class="card-panel green white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashBag.get('error') %}
+        <div class="card-panel red white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     {% if error %}
-    <div class="card-panel red">
-        <strong>Erreur de login ou de mot de passe</strong>
+    <div class="card-panel red white-text">
+        <strong>Vos identifiant et/ou mot de passe ne correspondent pas.</strong>
     </div>
     {% endif %}
     <div>
+        <div>
+            <p><a href="{{ path('recovery') }}">Mot de passe oublié ?</a></p>
+        </div>
         <form role="form" action="{{ path('login_check') }}" method="post">
             <div class="input-field">
                 <label for="username">Votre pseudo :</label>
-                    <input type="text" name="_username" value="{{ last_username }}" id="username" required autofocus>
+                <input type="text" name="_username" value="{{ last_username }}" id="username" required autofocus>
             </div>
             <div class="input-field">
                 <label for="password">Votre mot de passe :</label>
-                    <input type="password" name="_password" id="password" required>
+                <input type="password" name="_password" id="password" required>
             </div>
             <div class="input-field">
                 <div>
@@ -26,4 +98,5 @@
         </form>
     </div>
 </div>
+{% endif %}
 {% endblock %}

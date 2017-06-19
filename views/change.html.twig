@@ -1,0 +1,36 @@
+{% extends "layout.html.twig" %}
+{% block title %}
+    Changement de mot de passe
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h4 class="blue-grey-text text-darken-2">Changez votre mot de passe</h4>
+    <hr>
+    {% for flashMessage in app.session.flashBag.get('success') %}
+        <div class="card-panel green white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashBag.get('error') %}
+        <div class="card-panel red white-text">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <form method="post" action="{{ path('change.pwd') }}" class="col s12">
+        <div class="input-field">
+            <label for="new_pwd">Votre nouveau mot de passe</label>
+            <input type="password" name="new_pwd" id="new_pwd">
+        </div>
+        <div class="input-field">
+            <label for="new_pwd_confirm">Confirmez votre nouveau mot de passe</label>
+            <input type="password" name="new_pwd_confirm" id="new_pwd_confirm">
+        </div>
+        <div class="input-field">
+            <button name="new_pwd_submit" type="submit" class="btn-floating tooltipped waves-effect btn-large green lighten-1" data-position="right" data-delay="30" data-tooltip="Valider">
+                <i class="material-icons left">save</i>
+            </button>
+        </div>
+    </form>
+</div> 
+{% endblock content %}

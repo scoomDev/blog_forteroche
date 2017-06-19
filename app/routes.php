@@ -4,15 +4,18 @@ use Symfony\Component\HttpFoundation\Request;
 use forteroche\Domain\Comment;
 use forteroche\Domain\Article;
 use forteroche\Domain\Chapter;
+use forteroche\Domain\Header;
 use forteroche\Form\Type\CommentType;
 use forteroche\Form\Type\ArticleType;
 use forteroche\Form\Type\ChapterType;
+use forteroche\Form\Type\HeaderType;
 
 //-----------------------------------------------------------------------------
 // Home page / access to all articles
 $app->get('/', function() use($app) {
+    $header = $app['dao.header']->find();
     $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('index.html.twig', array('articles' => $articles));
+    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'header' => $header));
 })->bind('home');
 
 // Access to an article
@@ -52,6 +55,118 @@ $app->get('/login', function(Request $request) use($app) {
     ));
 })->bind('login');
 
+// Recovery form
+$app->match('/login/recovery', function(Request $request) use($app) {
+    if(isset($_POST['recovery_submit'], $_POST['recovery_mail'])) {
+        if(!empty($_POST['recovery_mail'])) {
+            $recovery_mail = htmlspecialchars($_POST['recovery_mail']);
+            if(filter_var($recovery_mail, FILTER_VALIDATE_EMAIL)) {
+                $mailexist = $app['dao.user']->mailExist($recovery_mail);
+                if($mailexist == 1) {
+                    $app['session']->set('recovery_mail', ['mail' => $recovery_mail]);
+                    $recovery_code = "";
+                    for ($i=0; $i < 8; $i++) { 
+                        $recovery_code .= mt_rand(1,9);
+                    }
+                    $app['dao.user']->insertCode($recovery_mail, $recovery_code);
+                    $pseudo = $app['dao.user']->recoveryFind($recovery_mail);
+                    $pseudo = $pseudo['usr_name'];
+                    include '../views/inc/mail.php';
+                    mail($recovery_mail, "Récupération de mot de passe", $message, $header);
+                    $app['session']->getFlashBag()->add('success', 'Un mail contenant le code de confirmation viens de vous être adressé.');
+                    return $app->redirect($app["url_generator"]->generate("recovery.confirm"));
+                } else {
+                    $app['session']->getFlashBag()->add('error', 'Cette adresse mail n\'est pas enregistré.');
+                }
+            } else {
+                $app['session']->getFlashBag()->add('error', 'Veuillez entrer une adresse mail valide.');
+            }
+        } else {
+            $app['session']->getFlashBag()->add('error', 'Veuillez entrer votre adresse mail.');
+        }
+    }
+    return $app['twig']->render('login.html.twig');
+})->bind('recovery');
+
+// Confirm with code form
+$app->match('/login/recovery/confirm', function(Request $request) use($app) {
+    $recovery_mail = $app['session']->get('recovery_mail');
+    if(isset($_POST['check_submit'], $_POST['check_code'])) {
+        if(!empty($_POST['check_code'])) {
+            $check_req = $app['dao.user']->checkValid($recovery_mail['mail'], $_POST['check_code']);
+            if($check_req == 1) {
+                $app['dao.user']->delRecovery($recovery_mail['mail']);
+                return $app->redirect($app["url_generator"]->generate("change.pwd"));
+            } else {
+                $app['session']->getFlashBag()->add('error', 'Veuillez entrer un code valide.');
+            }
+        } else {
+            $app['session']->getFlashBag()->add('error', 'Veuillez entrer votre code de confirmation');
+        }
+    }
+    return $app['twig']->render('login.html.twig');
+})->bind('recovery.confirm');
+
+// Change pwd form
+$app->match('/login/change', function(Request $request) use($app) {
+    $session = $app['security.token_storage']->getToken()->getUser();
+    $recovery_mail = $app['session']->get('recovery_mail');
+    var_dump($session->getEmail(), $recovery_mail);
+    if(isset($recovery_mail)) {
+        if(isset($_POST['new_pwd_submit'])) {
+            if(isset($_POST['new_pwd'], $_POST['new_pwd_confirm'])) {
+                $pwd = $_POST['new_pwd'];
+                $pwdc = $_POST['new_pwd_confirm'];
+                if (!empty($pwd) and !empty($pwdc)) {
+                    if ($pwd === $pwdc) {
+                        $salt = '%qUgq3NAYfC1MKwrW?yevbE';
+                        $encoder = $app['security.encoder.bcrypt'];
+                        $hash_pwd = $encoder->encodePassword($pwd, $salt);
+                        $app['dao.user']->updatePwd($recovery_mail['mail'], $hash_pwd);
+                        $app['session']->getFlashBag()->add('success', 'Votre mot de passe à bien été modifié');
+                        return $app->redirect($app["url_generator"]->generate("login"));
+                    } else {
+                        $app['session']->getFlashBag()->add('error', 'Vos mots de passe ne correspondent pas');
+                    }
+                } else {
+                    $app['session']->getFlashBag()->add('error', 'Veuillez remplir tous les champs');
+                }
+            } else {
+                $app['session']->getFlashBag()->add('error', 'Veuillez remplir tous les champs');
+            }
+        }
+    } else if($session !== 'anon.') {
+        if(isset($_POST['new_pwd_submit'])) {
+            if(isset($_POST['new_pwd'], $_POST['new_pwd_confirm'])) {
+                $pwd = $_POST['new_pwd'];
+                $pwdc = $_POST['new_pwd_confirm'];
+                if (!empty($pwd) and !empty($pwdc)) {
+                    if ($pwd === $pwdc) {
+                        $salt = '%qUgq3NAYfC1MKwrW?yevbE';
+                        $encoder = $app['security.encoder.bcrypt'];
+                        $hash_pwd = $encoder->encodePassword($pwd, $salt);
+                        $app['dao.user']->updatePwd($session->getEmail(), $hash_pwd);
+                        $app['session']->getFlashBag()->add('success', 'Votre mot de passe à bien été modifié');
+                        return $app->redirect($app["url_generator"]->generate("admin"));
+                    } else {
+                        $app['session']->getFlashBag()->add('error', 'Vos mots de passe ne correspondent pas');
+                    }
+                } else {
+                    $app['session']->getFlashBag()->add('error', 'Veuillez remplir tous les champs');
+                }
+            } else {
+                $app['session']->getFlashBag()->add('error', 'Veuillez remplir tous les champs');
+            }
+        } else {
+            $app['session']->getFlashBag()->add('error', 'Veuillez remplir tous les champs');
+        }
+    } else {
+        $app['session']->getFlashBag()->add('error', 'Veuillez être connecté ou avoir demandé une réinitialisation de votre mot de passe');
+        return $app->redirect($app["url_generator"]->generate("login"));
+    }
+    
+return $app['twig']->render('change.html.twig');
+})->bind('change.pwd');
 
 // ADMIN
 // Access to admin
@@ -59,7 +174,13 @@ $app->get('/admin', function() use($app) {
     $articles = $app['dao.article']->findAll();
     $comments = $app['dao.comment']->findAll();
     $chapters = $app['dao.chapter']->findAll();
-    return $app['twig']->render('admin.html.twig', array('articles' => $articles, 'comments' => $comments, 'chapters' => $chapters));
+    $header = $app['dao.header']->find();
+    return $app['twig']->render('admin.html.twig', array(
+        'articles' => $articles, 
+        'comments' => $comments, 
+        'chapters' => $chapters, 
+        'header' => $header
+    ));
 })->bind('admin');
 
 // Article
@@ -173,11 +294,29 @@ $app->get('/admin/chapter/{id}/delete', function($id, Request $request) use ($ap
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_chapter_delete');
 
+// header
+//-----------------------------------------------------------------------------
+// Edite an existing header
+$app->match('/admin/header/{id}/edit', function($id, Request $request) use($app) {
+    $header = $app['dao.header']->find();
+    $headerForm = $app['form.factory']->create(headerType::class, $header);
+    $headerForm->handleRequest($request);
+    if($headerForm->isSubmitted() && $headerForm->isValid()) {
+        $app['dao.header']->upImg1($header);
+        $app['dao.header']->upImg2($header);
+        $app['dao.header']->save($header);
+        $app['session']->getFlashBag()->add('success', "L'en-tête à bien été mis à jour.");
+        return $app->redirect($app["url_generator"]->generate("admin"));
+    } else {
+        return $app['twig']->render('header_form.html.twig', array('title' => 'Editer l\'en-tête', 'headerForm' => $headerForm->createView()));
+    }
+})->bind('admin_header_edit');
+
 // TOOL
 //-----------------------------------------------------------------------------
 // hash password tool
 $app->get('/hashpwd', function() use ($app) {
-    $rawPassword = '@dm1n';
+    $rawPassword = '24051985';
     $salt = '%qUgq3NAYfC1MKwrW?yevbE';
     $encoder = $app['security.encoder.bcrypt'];
     return $encoder->encodePassword($rawPassword, $salt);

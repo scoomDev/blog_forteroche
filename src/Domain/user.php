@@ -13,6 +13,13 @@ class User implements UserInterface {
     private $id;
 
     /**
+     * User email
+     *
+     * @var string
+     */
+    private $email;
+
+    /**
      * User name
      *
      * @var string
@@ -40,12 +47,24 @@ class User implements UserInterface {
      */
     private $role;
 
-        public function getId() {
+    public function getId() {
         return $this->id;
     }
 
     public function setId($id) {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
         return $this;
     }
 

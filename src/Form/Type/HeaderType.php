@@ -7,35 +7,36 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\File\File;
-use forteroche\Domain\Article;
+use forteroche\Domain\header;
 
-class ArticleType extends AbstractType
+class HeaderType extends AbstractType
 { 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $article = new Article();
+        $header = new Header();
         $builder
-            ->add('image', FileType::class, [
-                'label' => 'Choisissez une image d\'en-tête', 
-                'data_class' => null,
-                'required' => false
+            ->add('image1', FileType::class, [
+                'label' => 'Choisissez une image', 
+                'data_class' => null
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('chapter', TextType::class, [ 'label' => 'Chapitre' ])
-            ->add('content', TextareaType::class, [ 'required' => false ]);
+            ->add('subtitle', TextType::class, ['label' => 'Sous-titre'])
+            ->add('image2', FileType::class, [
+                'label' => 'Choisissez une image', 
+                'data_class' => null
+            ]);
     }
 
     public function getName()
     {
-        return 'article';
+        return 'header';
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Article::class,
+            'data_class' => Header::class,
         ));
     }
 }

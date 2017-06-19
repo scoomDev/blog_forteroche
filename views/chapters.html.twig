@@ -9,7 +9,10 @@
             <h3 class="deep-orange-text">Chapitre {{ chapter.number }}</h3>
             <div class="divider"></div>
             {% for article in chapter.article %}
-                <section>
+                <section style="padding:15px; margin-bottom: 20px;">
+                    <div style="width:100%;">
+                        <img src="{{ asset('img/' ~article.image ) }}" alt="Photo de l'Alaska" style="width:100%;">
+                    </div>
                     <h4><a href="/article/{{article.id}}">{{article.title}}</a></h4>
                     <p>{{ article.content | truncate(320) | striptags }}</p>
                 </section>
