@@ -31,7 +31,7 @@
         <div class="col s12" id="articles">
             {% if articles %}
                 <div>
-                    <table class="responsive-table highlight centeblue-grey bordeblue-grey">
+                    <table class="responsive-table highlight centered bordeblue-grey">
                         <thead>
                             <tr>
                                 <th>Titre</th>
@@ -83,7 +83,7 @@
         <div class="col s12" id="comments">
             {% if comments %}
                 <div>
-                    <table class="responsive-table highlight centeblue-grey bordeblue-grey">
+                    <table class="responsive-table highlight centered bordeblue-grey">
                         <thead>
                             <tr>
                                 <th>Auteur</th>
@@ -98,7 +98,7 @@
                                 <td>{{ comment.author }}</td>
                                 <td>{{ comment.content }}</td>
                                 <td>{{ comment.article.title }}</td>
-                                <td class="{{ comment.reporting == null ? "" : "blue-grey white-text" }}">{{ comment.reporting == null ? "ok" : "Ce commentaire à été signalé comme indésirable" }}</td>
+                                <td class="{{ comment.reporting == null ? "" : "red white-text" }}">{{ comment.reporting == null ? "ok" : "Ce commentaire à été signalé comme indésirable" }}</td>
                                 <td>
                                     <a class="btn tooltipped waves-effect blue lighten-1" href="{{ path('admin_comment_edit', { 'id': comment.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
                                         <i class="material-icons">mode_edit</i>
@@ -133,7 +133,7 @@
         <div class="col s12" id="chapters">
             {% if chapters %}
                 <div>
-                <table class="responsive-table highlight centeblue-grey bordeblue-grey">
+                <table class="responsive-table highlight centered bordeblue-grey">
                     <thead>
                         <tr>
                             <th>Numéro</th>
@@ -182,7 +182,7 @@
         <div class="col s12" id="header">
             {% if header %}
             <div>
-                <table class="responsive-table highlight centeblue-grey bordeblue-grey">
+                <table class="responsive-table highlight centered bordeblue-grey">
                     <thead>
                         <tr>
                             <th>Image 1</th>

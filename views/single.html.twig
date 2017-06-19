@@ -21,6 +21,8 @@
     <hr>
     {% for comment in comments %}
         {% include 'inc/comment.html.twig' %}
+    {% else %}
+    <p>Soyez le premier à laisser un commentaire</p>
     {% endfor %}
 
     <div id="form-comment">
