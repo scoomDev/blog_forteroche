@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\HttpFoundation\File\File;
 use forteroche\Domain\header;
 
 class HeaderType extends AbstractType
@@ -18,13 +17,13 @@ class HeaderType extends AbstractType
         $builder
             ->add('image1', FileType::class, [
                 'label' => 'Choisissez une image', 
-                'data_class' => null
+                'data_class' => $header->getImage1()
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])
             ->add('subtitle', TextType::class, ['label' => 'Sous-titre'])
             ->add('image2', FileType::class, [
                 'label' => 'Choisissez une image', 
-                'data_class' => null
+                'data_class' => $header->getImage2()
             ]);
     }
 

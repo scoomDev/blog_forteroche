@@ -28,7 +28,7 @@ class CommentDAO extends DAO {
             $comments[$comId] = $comment;
         }
 
-        $parentComments = array_filter($comments, function($comment) {
+        $parentComments = array_filter($comments, function(Comment $comment) {
             return $comment->getParentId() === NULL;
         });
 
@@ -39,7 +39,7 @@ class CommentDAO extends DAO {
     }
 
     public function setChildComments($allComments, Comment $comment) {
-        $childComments = array_filter($allComments, function($childComment) use($comment) {
+        $childComments = array_filter($allComments, function(Comment $childComment) use($comment) {
             return $childComment->getParentId() === $comment->getId();
         });
 

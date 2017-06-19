@@ -4,7 +4,6 @@ use Symfony\Component\HttpFoundation\Request;
 use forteroche\Domain\Comment;
 use forteroche\Domain\Article;
 use forteroche\Domain\Chapter;
-use forteroche\Domain\Header;
 use forteroche\Form\Type\CommentType;
 use forteroche\Form\Type\ArticleType;
 use forteroche\Form\Type\ChapterType;
@@ -110,13 +109,12 @@ $app->match('/login/recovery/confirm', function(Request $request) use($app) {
 $app->match('/login/change', function(Request $request) use($app) {
     $session = $app['security.token_storage']->getToken()->getUser();
     $recovery_mail = $app['session']->get('recovery_mail');
-    var_dump($session->getEmail(), $recovery_mail);
     if(isset($recovery_mail)) {
         if(isset($_POST['new_pwd_submit'])) {
             if(isset($_POST['new_pwd'], $_POST['new_pwd_confirm'])) {
                 $pwd = $_POST['new_pwd'];
                 $pwdc = $_POST['new_pwd_confirm'];
-                if (!empty($pwd) and !empty($pwdc)) {
+                if (!empty($pwd) && !empty($pwdc)) {
                     if ($pwd === $pwdc) {
                         $salt = '%qUgq3NAYfC1MKwrW?yevbE';
                         $encoder = $app['security.encoder.bcrypt'];
@@ -139,7 +137,7 @@ $app->match('/login/change', function(Request $request) use($app) {
             if(isset($_POST['new_pwd'], $_POST['new_pwd_confirm'])) {
                 $pwd = $_POST['new_pwd'];
                 $pwdc = $_POST['new_pwd_confirm'];
-                if (!empty($pwd) and !empty($pwdc)) {
+                if (!empty($pwd) && !empty($pwdc)) {
                     if ($pwd === $pwdc) {
                         $salt = '%qUgq3NAYfC1MKwrW?yevbE';
                         $encoder = $app['security.encoder.bcrypt'];
