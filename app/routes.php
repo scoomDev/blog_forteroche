@@ -11,7 +11,7 @@ use forteroche\Form\Type\ChapterType;
 use forteroche\Form\Type\HeaderType;
 
 //-----------------------------------------------------------------------------
-// Home page / access to all articles
+// Home page
 $app->get('/', function() use($app) {
     $header = $app['dao.header']->find();
     $articles = $app['dao.article']->findAll();
@@ -21,7 +21,6 @@ $app->get('/', function() use($app) {
 // Access to an article
 $app->match('/article/{id}', function($id, Request $request) use($app) {
     $article = $app['dao.article']->find($id);
-    $nbrComments = $app['dao.comment']->countComments($id);
     $commentFormView = null;
     $comment = new Comment();
     $comment->setArticle($article);
@@ -33,7 +32,7 @@ $app->match('/article/{id}', function($id, Request $request) use($app) {
     }
     $commentFormView = $commentForm->createView();
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('single.html.twig', array('article' => $article, 'nbrComments' => $nbrComments, 'comments' => $comments, 'commentForm' => $commentFormView));
+    return $app['twig']->render('single.html.twig', array('article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView));
 })->bind('article');
 
 // Access to chapters
@@ -201,6 +200,7 @@ $app->match('/admin/article/add', function(Request $request) use($app) {
             'articleForm' => $articleForm->createView(),
         ));
     }
+    return $app['twig']->render('article_form.html.twig', array('title' => 'Créer un nouvel article', 'articleForm' => $articleForm->createView()));
 })->bind('admin_article_add');
 
 // Edite an existing article
@@ -212,10 +212,8 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app
         $app['dao.article']->upImg($article);
         $app['dao.article']->save($article);
         $app['session']->getFlashBag()->add('success', "L'article à bien été mis à jour.");
-        return $app->redirect($app["url_generator"]->generate("admin"));
-    } else {
-        return $app['twig']->render('article_form.html.twig', array('title' => 'Editer l\'article', 'articleForm' => $articleForm->createView()));
     }
+    return $app['twig']->render('article_form.html.twig', array('title' => 'Editer l\'article', 'articleForm' => $articleForm->createView()));
 })->bind('admin_article_edit');
 
 // Remove an article
@@ -236,10 +234,8 @@ $app->match('/admin/comment/{id}/edit', function($id, Request $request) use($app
     if($commentForm->isSubmitted() && $commentForm->isValid()) {
         $app['dao.comment']->save($comment);
         $app['session']->getFlashBag()->add('success', 'Le commentaire à bien été modifié.');
-        return $app->redirect($app["url_generator"]->generate("admin"));
-    } else {
-        return $app['twig']->render('comment_form.html.twig', array('title' => 'Editer un commentaire', 'commentForm' => $commentForm->createView()));
     }
+    return $app['twig']->render('comment_form.html.twig', array('title' => 'Editer un commentaire', 'commentForm' => $commentForm->createView()));
 })->bind('admin_comment_edit');
 
 // Remove a comment

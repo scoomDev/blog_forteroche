@@ -25,19 +25,19 @@ class Comment {
     private $content;
 
     /**
+     * Comment date.
+     *
+     * @var string
+     */
+    private $date;
+
+
+    /**
      * Associated comment
      *
      * @var integer
      */
     private $parentId;
-
-
-    /**
-     * Comment date
-     *
-     * @var string
-     */
-    private $date;
 
     /**
      * Associated comment
@@ -95,21 +95,21 @@ class Comment {
         return $this;
     }
 
-    public function getDate() {
-        return $this->date;
-    }
-
-    public function setDate($date) {
-        $this->date = $date;
-        return $this;
-    }
-
     public function getParentId() {
         return $this->parentId;
     }
 
     public function setParentId($parentId) {
         $this->parentId = $parentId;
+        return $this;
+    }
+
+    public function getDate() {
+        return $this->date;
+    }
+
+    public function setDate($date) {
+        $this->date = $date;
         return $this;
     }
 
