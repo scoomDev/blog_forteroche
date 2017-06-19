@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'label' => 'Choisissez une image d\'en-tête', 
-                'data_class' => null,
+                'data_class' => $article->getImage(),
                 'required' => false
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])

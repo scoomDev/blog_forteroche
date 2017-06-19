@@ -98,6 +98,7 @@ class ArticleDAO extends DAO {
         if($article->getId()) {
             $this->getDb()->update('jf_articles', $articleData, array('art_id' => $article->getId()));
         } else {
+            var_dump($articleData['art_image']);
             $this->getDb()->insert('jf_articles', $articleData);
             $id = $this->getDb()->lastInsertId();
             $article->setId($id);

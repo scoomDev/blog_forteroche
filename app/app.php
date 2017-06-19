@@ -44,6 +44,12 @@ $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+    'monolog.logfile' => __DIR__.'/../var/logs/forteroche.log',
+    'monolog.name' => 'forteroche',
+    'monolog.level' => $app['monolog.level']
+));
+
 // Register services
 $app['dao.article'] = function($app) {
     $articleDAO = new forteroche\DAO\ArticleDAO($app['db']);
@@ -65,3 +71,18 @@ $app['dao.user'] = function($app) {
 $app['dao.header'] = function($app) {
     return new forteroche\DAO\HeaderDAO($app['db']);
 };
+
+// Register error handler
+$app->error(function(\Exception $e, Request $request, $code) use($app) {
+    switch($code) {
+        case 403:
+            $message = 'Access denied.';
+            break;
+        case 404:
+            $message = 'The requested resource could not be found.';
+            break;
+        default:
+            $message = 'Something went wrong.';
+    }
+    return $app['twig']->render('error.html.twig', array('message' => $message));
+});

@@ -37,7 +37,7 @@ $app->match('/article/{id}', function($id, Request $request) use($app) {
 })->bind('article');
 
 // Access to chapters
-$app->get('/chapters', function() use($app) {
+$app->get('/chapters', function(Request $request) use($app) {
     $chapters = $app['dao.chapter']->findAll();
     return $app['twig']->render('chapters.html.twig', array('chapters' => $chapters));
 })->bind('chapters');
@@ -324,5 +324,7 @@ $app->get('/hashpwd', function() use ($app) {
 
 // Global var
 $app->before(function (Request $request) use ($app) {
-    $app['twig']->addGlobal('current_uri', $request->getRequestUri());
+    if($request) {
+        $app['twig']->addGlobal('current_uri', $request->getRequestUri());
+    }
 });

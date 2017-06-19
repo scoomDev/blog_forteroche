@@ -1,25 +1,25 @@
 <ul id="slide-out" class="side-nav">
+    <li>
+        <a class="{% if current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="material-icons left">description</i> Accueil</a>
+    </li>
+    <li>
+        <a class="{% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="material-icons left">library_books</i> Chapitres</a>
+    </li>
+    <li>
+        <a class="{% if current_uri == '/about' %}active{% endif %}" href="{{ path('about') }}"><i class="material-icons left">info</i> A propos</a>
+    </li>
+    <li><div class="divider"></div></li>
+    <li> <!-- Dropdown trigger -->
+    {% if app.user and is_granted('ROLE_ADMIN') %}
+    <ul>
+        <li><a class="subheader">Bonjour, {{ app.user.username }}</a></li>
         <li>
-            <a class="{% if current_uri == '/' %}active{% endif %} " href="{{ path('home') }}"><i class="material-icons left">description</i> Accueil</a>
+            <a href="{{ path('admin') }}"><i class="material-icons">settings</i> Administration</a>
         </li>
         <li>
-            <a class="{% if current_uri == '/chapters' %}active{% endif %}" href="{{ path('chapters') }}"><i class="material-icons left">library_books</i> Chapitres</a>
-        </li>
-        <li>
-            <a class="{% if current_uri == '/about' %}active{% endif %}" href="{{ path('about') }}"><i class="material-icons left">info</i> A propos</a>
-        </li>
-        <li><div class="divider"></div></li>
-        <li> <!-- Dropdown trigger -->
-        {% if app.user and is_granted('ROLE_ADMIN') %}
-        <ul>
-            <li><a class="subheader">Bonjour, {{ app.user.username }}</a></li>
-            <li>
-                <a href="{{ path('admin') }}"><i class="material-icons">settings</i> Administration</a>
-            </li>
-            <li>
-                <a href="{{ path('logout') }}"><i class="material-icons">exit_to_app</i> Se déconnecter</a>
-            </li>
-        </ul>
-        {% endif %}
+            <a href="{{ path('logout') }}"><i class="material-icons">exit_to_app</i> Se déconnecter</a>
         </li>
     </ul>
+    {% endif %}
+    </li>
+</ul>
