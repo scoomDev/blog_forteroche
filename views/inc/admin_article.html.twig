@@ -1,0 +1,52 @@
+<div class="col s12" id="articles">
+    {% if articles %}
+        <div>
+            <table class="responsive-table highlight centered bordeblue-grey">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Contenu</th>
+                        <th>Chapitre</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                {% for article in articles %}
+                    <tr>
+                        <td><a href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
+                        <td>{{ article.content | truncate(60) | striptags}}</td>
+                        <td>{{ article.chapter }}</td>
+                        <td>
+                            <a class="btn tooltipped blue lighten-1" href="{{ path('admin_article_edit', { 'id': article.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
+                                <i class="material-icons">mode_edit</i>
+                            </a>
+                            <button class="waves-effect btn tooltipped red lighten-1" type="button" data-target="#articleDialog{{ article.id }}" role="dialog" data-position="top" data-delay="30" data-tooltip="Supprimer">
+                                <i class="material-icons">delete</i>
+                            </button>
+                            <div class="modal" id="#articleDialog{{ article.id }}" role="dialog" aria-hidden="true">
+                                <div class="modal-content">
+                                    <button class="modal-action modal-close waves-effect btn-flat right" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Veuillez confirmer</h4>
+                                    <p>Voulez-vous vraiment supprimer cet article ?</p>
+                                    <div class="modal-footer">
+                                        <button class="modal-action modal-close waves-effect btn-flat">Annuler</button>
+                                        <a href="{{ path('admin_article_delete', {'id': article.id}) }}" class="btn red lighten-1">Supprimer</a>
+                                    </div> <!-- modal footer -->
+                                </div> <!-- modal content -->
+                            </div>  <!-- modal -->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <div class="card-panel orange white-text">
+            Aucun article trouvé.
+        </div>
+    {% endif %}
+    <div class="mt_btn right-align">
+        <a href="{{ path('admin_article_add') }}" class="btn-floating btn-large tooltipped waves-effect blue lighten-1" data-position="left" data-delay="30" data-tooltip="Ajouter une article">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+    
+</div> <!-- Articles -->
