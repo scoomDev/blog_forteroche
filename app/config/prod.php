@@ -10,5 +10,9 @@ $app['db.options'] = array(
     'user' => 'root',
     'password' => '',
 );
+
+
+$app['image_directory'] = 'http://forteroche/img';
+
 // define log parameters
 $app['monolog.level'] = 'WARNING';

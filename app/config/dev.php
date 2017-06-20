@@ -11,6 +11,8 @@ $app['db.options'] = array(
     'password' => '',
 );
 
+$app['image_directory'] = 'http://forteroche/img';
+
 // enable the debug mode
 $app['debug'] = true;
 

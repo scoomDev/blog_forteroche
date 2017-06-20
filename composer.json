@@ -1,6 +1,7 @@
 {
-    "name": "Blog de Jean Forteroche",
+    "name": "blog-forteroche",
     "description": "projet 3 de la formation OpenclassRooms",
+    "license": "",
     "authors": [{
         "name": "Soetaert Christopher",
         "email": "soetaert.chris@gmail.com",

@@ -8,6 +8,7 @@ use forteroche\Form\Type\CommentType;
 use forteroche\Form\Type\ArticleType;
 use forteroche\Form\Type\ChapterType;
 use forteroche\Form\Type\HeaderType;
+use Symfony\Component\HttpFoundation\File\File;
 
 //-----------------------------------------------------------------------------
 // Home page
@@ -204,6 +205,7 @@ $app->match('/admin/article/add', function(Request $request) use($app) {
 // Edite an existing article
 $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app) {
     $article = $app['dao.article']->find($id);
+    $article->setImage(new File($app['image_directory'].'/'.$article->getImage()));
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
@@ -306,6 +308,7 @@ $app->match('/admin/header/{id}/edit', function($id, Request $request) use($app)
     }
 })->bind('admin_header_edit');
 
+
 // TOOL
 //-----------------------------------------------------------------------------
 // hash password tool
@@ -318,7 +321,5 @@ $app->get('/hashpwd', function() use ($app) {
 
 // Global var
 $app->before(function (Request $request) use ($app) {
-    if($request) {
-        $app['twig']->addGlobal('current_uri', $request->getRequestUri());
-    }
+    $app['twig']->addGlobal('current_uri', $request->getRequestUri());
 });
