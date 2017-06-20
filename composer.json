@@ -1,7 +1,7 @@
 {
-    "name": "blog-forteroche",
+    "name": "scoomdev/blog-forteroche",
     "description": "projet 3 de la formation OpenclassRooms",
-    "license": "",
+    "license": "MIT",
     "authors": [{
         "name": "Soetaert Christopher",
         "email": "soetaert.chris@gmail.com",

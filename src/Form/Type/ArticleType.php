@@ -14,10 +14,10 @@ class ArticleType extends AbstractType
 { 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $article = new Article();
         $builder
             ->add('image', FileType::class, [
-                'label' => 'Choisissez une image d\'en-tête'
+                'label' => 'Choisissez une image d\'en-tête',
+                'required' => false
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])
             ->add('chapter', TextType::class, [ 'label' => 'Chapitre' ])
