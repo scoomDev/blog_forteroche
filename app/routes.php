@@ -8,7 +8,6 @@ use forteroche\Form\Type\CommentType;
 use forteroche\Form\Type\ArticleType;
 use forteroche\Form\Type\ChapterType;
 use forteroche\Form\Type\HeaderType;
-use Symfony\Component\HttpFoundation\File\File;
 
 //-----------------------------------------------------------------------------
 // Home page
@@ -205,12 +204,14 @@ $app->match('/admin/article/add', function(Request $request) use($app) {
 // Edite an existing article
 $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app) {
     $article = $app['dao.article']->find($id);
-    $article->setImage(new File($app['image_directory'].'/'.$article->getImage()));
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
+    var_dump($articleForm->getData());
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
-        $app['dao.article']->upImg($article);
-        $app['dao.article']->save($article);
+        if (!null === $articleForm->getData()->getImage()) {
+            $app['dao.article']->upImg($article);
+        }
+        $app['dao.article']->update($article);
         $app['session']->getFlashBag()->add('success', "L'article à bien été mis à jour.");
     }
     return $app['twig']->render('article_form.html.twig', array('title' => 'Editer l\'article', 'articleForm' => $articleForm->createView()));
@@ -298,9 +299,13 @@ $app->match('/admin/header/{id}/edit', function($id, Request $request) use($app)
     $headerForm = $app['form.factory']->create(headerType::class, $header);
     $headerForm->handleRequest($request);
     if($headerForm->isSubmitted() && $headerForm->isValid()) {
-        $app['dao.header']->upImg1($header);
-        $app['dao.header']->upImg2($header);
-        $app['dao.header']->save($header);
+        if (!null === $headerForm->getData()->getImage1()) {
+            $app['dao.header']->upImg1($header);
+        }
+        if (!null === $headerForm->getData()->getImage2()) {
+            $app['dao.header']->upImg2($header);
+        }
+        $app['dao.header']->update($header);
         $app['session']->getFlashBag()->add('success', "L'en-tête à bien été mis à jour.");
         return $app->redirect($app["url_generator"]->generate("admin"));
     } else {

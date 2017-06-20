@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use forteroche\Domain\Article;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 class ArticleType extends AbstractType
 { 
@@ -17,6 +19,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'label' => 'Choisissez une image d\'en-tête',
+                'data_class' => null,
                 'required' => false
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])

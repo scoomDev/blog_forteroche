@@ -73,7 +73,7 @@ $app['dao.header'] = function($app) {
 };
 
 // Register error handler
-$app->error(function(\Exception $e, Request $request, $code) use($app) {
+/*$app->error(function(\Exception $e, Request $request, $code) use($app) {
     switch($code) {
         case 403:
             $message = 'Access denied.';
@@ -85,4 +85,4 @@ $app->error(function(\Exception $e, Request $request, $code) use($app) {
             $message = 'Something went wrong.';
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
-});
+});*/

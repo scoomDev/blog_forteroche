@@ -10,7 +10,7 @@
     </h2>
     <hr>
     {% for flashMessage in app.session.flashBag.get('success') %}
-        <div class="card-panel green">
+        <div class="card-panel green white-text">
             {{ flashMessage }}
         </div>
     {% endfor %}

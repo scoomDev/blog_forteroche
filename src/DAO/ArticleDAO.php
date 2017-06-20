@@ -90,18 +90,26 @@ class ArticleDAO extends DAO {
     public function save(Article $article) {
         $articleData = array(
             'art_title' => $article->getTitle(),
+            'art_content' => $article->getContent(),
             'art_image' => $article->getImage(),
+            'chapt_number' => $article->getChapter()
+        );
+        $this->getDb()->insert('jf_articles', $articleData);
+        $id = $this->getDb()->lastInsertId();
+        $article->setId($id);
+    }
+
+    public function update(Article $article) {
+        $articleData = array(
+            'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
             'chapt_number' => $article->getChapter()
         );
 
-        if($article->getId()) {
-            $this->getDb()->update('jf_articles', $articleData, array('art_id' => $article->getId()));
-        } else {
-            $this->getDb()->insert('jf_articles', $articleData);
-            $id = $this->getDb()->lastInsertId();
-            $article->setId($id);
+        if($article->getImage()) {
+            $articleData['art_image'] = $article->getImage()->getClientOriginalName();
         }
+        $this->getDb()->update('jf_articles', $articleData, array('art_id' => $article->getId()));
     }
 
     public function delete($id) {
