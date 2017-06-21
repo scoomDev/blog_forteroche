@@ -5,8 +5,14 @@ use forteroche\Domain\Chapter;
 
 class ChapterDAO extends DAO {
 
+    /**
+     * @var forteroche\DAO\ArticleDAO
+     */
     private $articleDAO;
 
+    /**
+     * @param ArticleDAO $articleDAO
+     */
     public function setArtDAO(ArticleDAO $articleDAO) {
         $this->articleDAO = $articleDAO;
     }
@@ -28,6 +34,11 @@ class ChapterDAO extends DAO {
         }
     }
 
+    /**
+     * Returns a list of all chapters
+     *
+     * @return array
+     */
     public function findAll() {
         $sql = "SELECT * FROM jf_chapters ORDER BY chapt_id";
         $result = $this->getDb()->fetchAll($sql);
@@ -39,6 +50,35 @@ class ChapterDAO extends DAO {
             $chapters[$chapterId] = $this->buildDomainObject($row);
         }
         return $chapters;
+    }
+
+    /**
+     * Saves chapter into the database
+     *
+     * @param Chapter $chapter
+     */
+    public function save(Chapter $chapter) {
+        $chapterData = array(
+            'chapt_number' => $chapter->getNumber(),
+            'chapt_title' => $chapter->getTitle()
+        );
+
+        if($chapter->getId()) {
+            $this->getDb()->update('js_chapters', $chapterData, array('chapt_id' => $chapter->getId()));
+        } else {
+            $this->getDb()->insert('jf_chapters', $chapterData);
+            $id = $this->getDb()->lastInsertId();
+            $chapter->setId($id);
+        }
+    }
+
+    /**
+     * Removes an existing chapter from the database
+     *
+     * @param [type] $id
+     */
+    public function delete($id) {
+        $this->getDb()->delete('jf_chapters', array('chapt_id' => $id));
     }
 
     /**
@@ -58,25 +98,6 @@ class ChapterDAO extends DAO {
         $chapter->setArticle($article);
 
         return $chapter;
-    }
-
-    public function save(Chapter $chapter) {
-        $chapterData = array(
-            'chapt_number' => $chapter->getNumber(),
-            'chapt_title' => $chapter->getTitle()
-        );
-
-        if($chapter->getId()) {
-            $this->getDb()->update('js_chapters', $chapterData, array('chapt_id' => $chapter->getId()));
-        } else {
-            $this->getDb()->insert('jf_chapters', $chapterData);
-            $id = $this->getDb()->lastInsertId();
-            $chapter->setId($id);
-        }
-    }
-
-    public function delete($id) {
-        $this->getDb()->delete('jf_chapters', array('chapt_id' => $id));
     }
 
 }

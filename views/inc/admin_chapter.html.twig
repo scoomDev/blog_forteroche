@@ -5,12 +5,14 @@
             <thead>
                 <tr>
                     <th>Numéro</th>
+                    <th>Titre</th>
                     <th>Action</th>
                 </tr>
             </thead>
             {% for chapter in chapters %}
             <tr>
                 <td>{{ chapter.number }}</td>
+                <td>{{ chapter.title }}</td>
                 <td>
                     <a class="btn tooltipped waves-effect blue lighten-1" href="{{ path('admin_chapter_edit', { 'id': chapter.id }) }}" data-position="top" data-delay="30" data-tooltip="Editer">
                         <i class="material-icons">mode_edit</i>

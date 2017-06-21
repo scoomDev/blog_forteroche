@@ -6,7 +6,7 @@
     <hr>
     <div class="container">
         {% for chapter in chapters %}
-            <h3 class="deep-orange-text">Chapitre {{ chapter.number }}</h3>
+            <h3 class="deep-orange-text">Chapitre {{ chapter.number }} - {{ chapter.title }}</h3>
             <div class="divider"></div>
             {% for article in chapter.article %}
                 <section class="chapter">

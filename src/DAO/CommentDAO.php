@@ -140,6 +140,17 @@ class CommentDAO extends DAO {
     }
 
     public function countComments($id){
-        return count($this->findAllByArticle($id));
+        $article = $this->articleDAO->find($id);
+        $sql = "SELECT * FROM jf_comments WHERE art_id=?";
+        $result = $this->getDb()->fetchAll($sql, array($id));
+
+        $comments = [];
+        foreach($result as $row) {
+            $comId = $row['com_id'];
+            $comment = $this->buildDomainObject($row);
+            $comment->setArticle($article);
+            $comments[$comId] = $comment;
+        }
+        return count($comments);
     }
 }

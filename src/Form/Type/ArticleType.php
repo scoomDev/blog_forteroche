@@ -4,12 +4,12 @@ namespace forteroche\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use forteroche\Domain\Article;
-use Symfony\Component\HttpFoundation\File\File;
 
 
 class ArticleType extends AbstractType
@@ -23,7 +23,7 @@ class ArticleType extends AbstractType
                 'required' => false
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('chapter', TextType::class, [ 'label' => 'Chapitre' ])
+            ->add('chapter', TextType::class, ['label' => 'Chapitre'])
             ->add('content', TextareaType::class, [ 'required' => false ]);
     }
 

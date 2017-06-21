@@ -15,12 +15,15 @@
 
     <div class="container">
         {{ form_start(chapterForm) }}
-        <div>
+        <div class="input-field">
             {{ form_label(chapterForm.number, null) }}
-            <div class="input-field">
-                {{ form_errors(chapterForm.number) }}
-                {{ form_widget(chapterForm.number) }}
-            </div>
+            {{ form_errors(chapterForm.number) }}
+            {{ form_widget(chapterForm.number) }}
+        </div>
+        <div class="input-field">
+            {{ form_label(chapterForm.title, null) }}
+            {{ form_errors(chapterForm.title) }}
+            {{ form_widget(chapterForm.title) }}
         </div>
         <div class="mt_btn right-align">
             <button class="btn-floating btn-large tooltipped green lighten-1" type="submit" data-position="left" data-delay="30" data-tooltip="Sauvegarder"><i class="material-icons">save</i></button>

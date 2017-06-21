@@ -24,7 +24,7 @@ class ArticleDAO extends DAO {
     }
 
     /**
-     * return an article mathing the supplied chapter
+     * returns an article mathing the supplied chapter
      *
      * @param integer $chapter The article chapter
      * @return \forteroche\Domain\Article | throws an exception if no matching article is found
@@ -43,7 +43,7 @@ class ArticleDAO extends DAO {
     }
 
     /**
-     * Return a list of all articles, sorted by date (most recent first).
+     * Returns a list of all articles, sorted by date (most recent first).
      *
      * @return array A list of all articles.
      */
@@ -58,6 +58,63 @@ class ArticleDAO extends DAO {
             $articles[$articleId] = $this->buildDomainObject($row);
         }
         return $articles;
+    }
+
+    /**
+     * Uploads an image for the article
+     *
+     * @param Article $article
+     */
+    public function upImg(Article $article) {
+        $image = $article->getImage();
+        $url = '../web/img';
+        $fileName = md5(uniqid()).'.'.$image->guessExtension();
+        $image->move($url, $fileName);
+        $article->setImage($fileName);
+    }
+
+    /**
+     * Saves an article intro the database
+     *
+     * @param Article $article
+     */
+    public function save(Article $article) {
+        $articleData = array(
+            'art_title' => $article->getTitle(),
+            'art_content' => $article->getContent(),
+            'art_image' => $article->getImage(),
+            'chapt_number' => $article->getChapter()
+        );
+        $this->getDb()->insert('jf_articles', $articleData);
+        $id = $this->getDb()->lastInsertId();
+        $article->setId($id);
+    }
+
+    /**
+     * Updates an existing article from the database
+     *
+     * @param Article $article
+     */
+    public function update(Article $article) {
+        $articleData = array(
+            'art_title' => $article->getTitle(),
+            'art_content' => $article->getContent(),
+            'chapt_number' => $article->getChapter()
+        );
+
+        if($article->getImage()) {
+            $articleData['art_image'] = $article->getImage()->getClientOriginalName();
+        }
+        $this->getDb()->update('jf_articles', $articleData, array('art_id' => $article->getId()));
+    }
+
+    /**
+     * Removes an article from the database
+     *
+     * @param integer $id The article id
+     */
+    public function delete($id) {
+        $this->getDb()->delete('jf_articles', array('art_id' => $id));
     }
 
     /**
@@ -77,43 +134,6 @@ class ArticleDAO extends DAO {
         $article->setDate($row['art_date']);
 
         return $article;
-    }
-
-    public function upImg($article) {
-        $image = $article->getImage();
-        $url = '../web/img';
-        $fileName = md5(uniqid()).'.'.$image->guessExtension();
-        $image->move($url, $fileName);
-        $article->setImage($fileName);
-    }
-
-    public function save(Article $article) {
-        $articleData = array(
-            'art_title' => $article->getTitle(),
-            'art_content' => $article->getContent(),
-            'art_image' => $article->getImage(),
-            'chapt_number' => $article->getChapter()
-        );
-        $this->getDb()->insert('jf_articles', $articleData);
-        $id = $this->getDb()->lastInsertId();
-        $article->setId($id);
-    }
-
-    public function update(Article $article) {
-        $articleData = array(
-            'art_title' => $article->getTitle(),
-            'art_content' => $article->getContent(),
-            'chapt_number' => $article->getChapter()
-        );
-
-        if($article->getImage()) {
-            $articleData['art_image'] = $article->getImage()->getClientOriginalName();
-        }
-        $this->getDb()->update('jf_articles', $articleData, array('art_id' => $article->getId()));
-    }
-
-    public function delete($id) {
-        $this->getDb()->delete('jf_articles', array('art_id' => $id));
     }
 
 }
