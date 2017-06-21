@@ -313,7 +313,6 @@ $app->match('/admin/header/{id}/edit', function($id, Request $request) use($app)
     }
 })->bind('admin_header_edit');
 
-
 // TOOL
 //-----------------------------------------------------------------------------
 // hash password tool
@@ -322,9 +321,4 @@ $app->get('/hashpwd', function() use ($app) {
     $salt = '%qUgq3NAYfC1MKwrW?yevbE';
     $encoder = $app['security.encoder.bcrypt'];
     return $encoder->encodePassword($rawPassword, $salt);
-});
-
-// Global var
-$app->before(function (Request $request) use ($app) {
-    $app['twig']->addGlobal('current_uri', $request->getRequestUri());
 });

@@ -73,16 +73,22 @@ $app['dao.header'] = function($app) {
 };
 
 // Register error handler
-/*$app->error(function(\Exception $e, Request $request, $code) use($app) {
+$app->error(function(\Exception $e, Request $request, $code) use($app) {
     switch($code) {
         case 403:
-            $message = 'Access denied.';
+            $message = 'Accès refusé.';
             break;
         case 404:
-            $message = 'The requested resource could not be found.';
+            $message = 'La page demandé n\'a pas été trouvé.';
             break;
         default:
-            $message = 'Something went wrong.';
+            $message = 'Quelque chose ne fonctionne pas.';
     }
+    $app['twig']->addGlobal('current_uri', $request->getRequestUri());
     return $app['twig']->render('error.html.twig', array('message' => $message));
-});*/
+});
+
+// Global var
+$app->before(function (Request $request) use ($app) {
+    $app['twig']->addGlobal('current_uri', $request->getRequestUri());
+});
