@@ -23,6 +23,7 @@ $app->match('/article/{id}', function($id, Request $request) use($app) {
     $commentFormView = null;
     $comment = new Comment();
     $comment->setArticle($article);
+    $nbrComments = $app['dao.comment']->countComments($article->getid());
     $commentForm = $app['form.factory']->create(CommentType::class, $comment);
     $commentForm->handleRequest($request);
     if($commentForm->isSubmitted() && $commentForm->isValid()) {
@@ -31,7 +32,7 @@ $app->match('/article/{id}', function($id, Request $request) use($app) {
     }
     $commentFormView = $commentForm->createView();
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('single.html.twig', array('article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView));
+    return $app['twig']->render('single.html.twig', array('article' => $article, 'comments' => $comments, 'nbrComments' => $nbrComments, 'commentForm' => $commentFormView));
 })->bind('article');
 
 // Access to chapters
@@ -206,7 +207,6 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app
     $article = $app['dao.article']->find($id);
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
-    var_dump($articleForm->getData());
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
         if (!null === $articleForm->getData()->getImage()) {
             $app['dao.article']->upImg($article);
@@ -214,7 +214,7 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app
         $app['dao.article']->update($article);
         $app['session']->getFlashBag()->add('success', "L'article à bien été mis à jour.");
     }
-    return $app['twig']->render('article_form.html.twig', array('title' => 'Editer l\'article', 'articleForm' => $articleForm->createView()));
+    return $app['twig']->render('article_form.html.twig', array('title' => 'Editer l\'article', 'file_title' => 'Changer l\'image d\'en-tête' , 'article' => $article, 'articleForm' => $articleForm->createView()));
 })->bind('admin_article_edit');
 
 // Remove an article

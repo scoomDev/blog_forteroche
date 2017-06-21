@@ -17,13 +17,15 @@ class HeaderType extends AbstractType
         $builder
             ->add('image1', FileType::class, [
                 'label' => 'Choisissez une image', 
-                'data_class' => null
+                'data_class' => null,
+                'required' => false
             ])
             ->add('title', TextType::class, ['label' => 'Titre'])
             ->add('subtitle', TextType::class, ['label' => 'Sous-titre'])
             ->add('image2', FileType::class, [
                 'label' => 'Choisissez une image', 
-                'data_class' => null
+                'data_class' => null,
+                'required' => false
             ]);
     }
 

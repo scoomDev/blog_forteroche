@@ -11,17 +11,16 @@ class HeaderDAO extends DAO {
         return $this->buildDomainObject($row);
     }
 
-    public function update(Article $header) {
+    public function update(Header $header) {
         $headerData = array(
             'head_title' => $header->getTitle(),
             'head_subtitle' => $header->getSubtitle()
         );
-
         if($header->getImage1()) {
-            $headerData['head_img1'] = $header->getImage()->getClientOriginalName();
+            $headerData['head_img_1'] = $header->getImage1()->getClientOriginalName();
         }
         if($header->getImage2()) {
-            $headerData['head_img2'] = $header->getImage()->getClientOriginalName();
+            $headerData['head_img_2'] = $header->getImage2()->getClientOriginalName();
         }
         $this->getDb()->update('jf_header', $headerData, array('head_id' => $header->getId()));
     }

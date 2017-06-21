@@ -1,9 +1,14 @@
+/* GLOBAL 
+-------------------------------------------------------------------------------------*/
 hr {
     margin-bottom: 30px;
     border-width: 0 0 .5px 0;
     border-style: solid;
     border-color: rgba(0,0,0,0.3);
 }
+
+/* Nav 
+-------------------------------------------------------------------------------------*/
 
 .brand-logo {
     margin-left: 10px;
@@ -25,6 +30,9 @@ hr {
     color: white;
 }
 
+/* Home 
+-------------------------------------------------------------------------------------*/
+
 .card-article {
     height: 510px;
 }
@@ -37,6 +45,8 @@ hr {
     max-height: 160px!important;
 }
 
+/* Single 
+-------------------------------------------------------------------------------------*/
 
 .img-header {
     width: 100%;
@@ -58,14 +68,6 @@ hr {
     text-align: center;
     display: block;
     margin-bottom: -25px;
-}
-
-.info {
-    margin-top: 50px;
-}
-
-.image-label {
-    font-size: 1.5rem;
 }
 
 .reply-comment {
@@ -92,15 +94,68 @@ hr {
     vertical-align: middle;
 }
 
+/* Chapter 
+-------------------------------------------------------------------------------------*/
+.chapter {
+    padding:15px; 
+    margin-bottom: 20px;
+}
+
+.chapter-img-block {
+    width: 100%;
+}
+
+.chapter-img {
+    width: 100%;
+}
+
+
+/* Admin 
+-------------------------------------------------------------------------------------*/
+.indicator {
+    background-color: #607d8b ! important;
+}
+
+/* Admin Article 
+-------------------------------------------------------------------------------------*/
+.img-art-edit-block {
+    max-height: 300px;
+    overflow: hidden;
+    margin: 5px 0 15px 0;
+}
+
+.img-art-edit {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.info {
+    margin-top: 50px;
+}
+
+.image-label {
+    font-size: 1.5rem;
+}
+
 .chapter-title {
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
-.indicator {
-    background-color: #607d8b ! important;
+/* Admin Article 
+-------------------------------------------------------------------------------------*/
+.admin-thumb-block {
+    width: 200px;
 }
 
+.admin-thumb {
+    width: 100%;
+}
+
+
+/* Footer 
+-------------------------------------------------------------------------------------*/
 footer {
     height: auto;
     margin-top: 50px;
@@ -112,8 +167,8 @@ footer {
     color: white;
 }
 
-/* HELPERS 
--------------------------------------------------------------------------------------------*/
+/* Helpers 
+-------------------------------------------------------------------------------------*/
 
 .text-tiny {
     font-size: 1.2rem;
