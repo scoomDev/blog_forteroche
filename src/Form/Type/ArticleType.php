@@ -21,7 +21,7 @@ class ArticleType extends AbstractType
                 'data_class' => null,
                 'required' => false
             ])
-            ->add('title', TextType::class, ['label' => 'Titre'])
+            ->add('title', TextType::class, ['label' => 'Titre de l\'article'])
             ->add('chapter', TextType::class, ['label' => 'Chapitre'])
             ->add('content', TextareaType::class, [ 'required' => false ]);
     }

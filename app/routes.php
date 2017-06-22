@@ -189,7 +189,9 @@ $app->match('/admin/article/add', function(Request $request) use($app) {
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
-        $app['dao.article']->upImg($article);
+        if (null !== $article->getImage()) {
+            $app['dao.article']->upImg($article);
+        }
         $app['dao.article']->save($article);
         $app['session']->getFlashBag()->add('success', 'Le nouvel article à bien été créé.');
         return $app->redirect($app["url_generator"]->generate("admin"));
@@ -208,7 +210,7 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use($app
     $articleForm = $app['form.factory']->create(ArticleType::class, $article);
     $articleForm->handleRequest($request);
     if($articleForm->isSubmitted() && $articleForm->isValid()) {
-        if (!null === $articleForm->getData()->getImage()) {
+        if (null !== $article->getImage()) {
             $app['dao.article']->upImg($article);
         }
         $app['dao.article']->update($article);
@@ -299,10 +301,10 @@ $app->match('/admin/header/{id}/edit', function($id, Request $request) use($app)
     $headerForm = $app['form.factory']->create(headerType::class, $header);
     $headerForm->handleRequest($request);
     if($headerForm->isSubmitted() && $headerForm->isValid()) {
-        if (!null === $headerForm->getData()->getImage1()) {
+        if (null !== $headerForm->getData()->getImage1()) {
             $app['dao.header']->upImg1($header);
         }
-        if (!null === $headerForm->getData()->getImage2()) {
+        if (null !== $headerForm->getData()->getImage2()) {
             $app['dao.header']->upImg2($header);
         }
         $app['dao.header']->update($header);

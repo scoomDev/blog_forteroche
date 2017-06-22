@@ -85,6 +85,11 @@ class ArticleDAO extends DAO {
             'art_image' => $article->getImage(),
             'chapt_number' => $article->getChapter()
         );
+
+        if($article->getImage() === null) {
+            $articleData['art_image'] = 'default.jpg';
+        }
+
         $this->getDb()->insert('jf_articles', $articleData);
         $id = $this->getDb()->lastInsertId();
         $article->setId($id);
@@ -103,7 +108,7 @@ class ArticleDAO extends DAO {
         );
 
         if($article->getImage()) {
-            $articleData['art_image'] = $article->getImage()->getClientOriginalName();
+            $articleData['art_image'] = $article->getImage();
         }
         $this->getDb()->update('jf_articles', $articleData, array('art_id' => $article->getId()));
     }

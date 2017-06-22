@@ -27,7 +27,7 @@
     <div class="navbar-fixed">
         <nav class="blue-grey darken-2">
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo">Billet simple pour l'Alaska</a>
+                <a href="/" class="brand-logo">{{ header.subtitle }}</a>
                 <ul class="right hide-on-med-and-down" id="nav-mobile">
                     <li class="{% if current_uri == '/' %}active{% endif %} ">
                         <a href="{{ path('home') }}"><i class="material-icons left">description</i> Accueil</a>

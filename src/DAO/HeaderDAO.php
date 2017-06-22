@@ -17,10 +17,10 @@ class HeaderDAO extends DAO {
             'head_subtitle' => $header->getSubtitle()
         );
         if($header->getImage1()) {
-            $headerData['head_img_1'] = $header->getImage1()->getClientOriginalName();
+            $headerData['head_img_1'] = $header->getImage1();
         }
         if($header->getImage2()) {
-            $headerData['head_img_2'] = $header->getImage2()->getClientOriginalName();
+            $headerData['head_img_2'] = $header->getImage2();
         }
         $this->getDb()->update('jf_header', $headerData, array('head_id' => $header->getId()));
     }

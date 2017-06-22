@@ -85,10 +85,12 @@ $app->error(function(\Exception $e, Request $request, $code) use($app) {
             $message = 'Quelque chose ne fonctionne pas.';
     }
     $app['twig']->addGlobal('current_uri', $request->getRequestUri());
+    $app['twig']->addGlobal('header', $app['dao.header']->find());
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });
 
 // Global var
 $app->before(function (Request $request) use ($app) {
     $app['twig']->addGlobal('current_uri', $request->getRequestUri());
+    $app['twig']->addGlobal('header', $app['dao.header']->find());
 });
