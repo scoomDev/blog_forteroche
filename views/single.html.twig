@@ -9,10 +9,11 @@
     <div class="card-panel green white-text">
         {{ flashMessage }}
     </div>
-    {% endfor %} 
-    <span class="text-tiny blue-grey-text text-darken-2 article-chapter-small hide-on-med-and-up">chapitre {{ article.chapter }}</span>
-    <h1 class="chapter-title deep-orange-text center-align">{{article.title | title}}</h1>
-    <span class="text-tiny blue-grey-text text-darken-2 article-chapter hide-on-small-only">chapitre {{ article.chapter }}</span>
+    {% endfor %}
+    <div class="article-title-block">
+        <span class="text-tiny blue-grey-text text-darken-2 article-chapter-small">chapitre {{ article.chapter }}</span>
+        <h1 class="chapter-title deep-orange-text center-align">{{article.title | title}}</h1>
+    </div>
     <hr>
     <div class="container flow-text">
         {{article.content | raw}}

@@ -6,7 +6,7 @@
     <hr>
     <div class="container">
         {% for chapter in chapters %}
-            <h3 class="deep-orange-text">Chapitre {{ chapter.number }} - {{ chapter.title }}</h3>
+            <h3 class="deep-orange-text chapterTitle">Chapitre {{ chapter.number }} - {{ chapter.title }}</h3>
             <div class="divider"></div>
             {% for article in chapter.article %}
                 <section class="chapter">
@@ -14,7 +14,7 @@
                         <img src="{{ asset('img/' ~article.image ) }}" alt="Photo de l'Alaska" class="chapter-img">
                     </div>
                     <h4><a href="/article/{{article.id}}">{{article.title}}</a></h4>
-                    <p>{{ article.content | truncate(320) | striptags }}</p>
+                    <p>{{ article.content | truncate(320) | raw }}</p>
                 </section>
                 
             {% endfor %}
