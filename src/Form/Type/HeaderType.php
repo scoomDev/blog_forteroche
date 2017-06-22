@@ -13,7 +13,6 @@ class HeaderType extends AbstractType
 { 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $header = new Header();
         $builder
             ->add('image1', FileType::class, [
                 'label' => 'Choisissez une image', 
