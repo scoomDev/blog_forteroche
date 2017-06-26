@@ -11,7 +11,7 @@
         {% if comment.reporting == null %}
             <a class="btn waves-effect waves-light red" href="{{ path('comment_report', { 'id': comment.id }) }}">Signaler</a>
         {% else %}
-            <span class="report orange">Ce commentaire à été signalé comme indésirable</span>
+            <span class="report orange">Commentaire signalé</span>
         {% endif %}
     </div>
 </div>
