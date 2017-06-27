@@ -41,11 +41,6 @@ $app->get('/chapters', function(Request $request) use($app) {
     return $app['twig']->render('chapters.html.twig', array('chapters' => $chapters));
 })->bind('chapters');
 
-// Access to about
-$app->get('/about', function() use($app) {
-    return $app['twig']->render('about.html.twig');
-})->bind('about');
-
 // Login form
 $app->get('/login', function(Request $request) use($app) {
     return $app['twig']->render('login.html.twig', array(
