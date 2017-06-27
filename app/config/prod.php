@@ -14,3 +14,4 @@ $app['image_directory'] = 'http://forteroche.scoomdev.eu/img';
 
 // define log parameters
 $app['monolog.level'] = 'WARNING';
+

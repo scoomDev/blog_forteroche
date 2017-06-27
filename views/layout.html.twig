@@ -24,6 +24,23 @@
     <!-- Responsive menu -->
     {% include 'inc/responsiveMenu.html.twig' %}
 
+    <div id="loader" class="loader">
+        <div class="loader__content">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+                </div>
+            </div>
+            <span class="loader__text">Chargement...</span>
+        </div>
+    </div>
+
     <div class="navbar-fixed">
         <nav class="blue-grey darken-2">
             <div class="nav-wrapper">

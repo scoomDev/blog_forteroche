@@ -9,4 +9,11 @@ $(document).ready(function(){
     $('.parallax').parallax();
     $('.tap-target').tapTarget('open');
     $('.tap-target').tapTarget('close');
+
+    /* LOADER */
+    $(".loader").fadeOut("1000");
+
+    $('.loader_btn').click(function(e) {
+        $(".loader").css("display", "flex");
+    })
 })

@@ -72,7 +72,7 @@ $app->match('/login/recovery', function(Request $request) use($app) {
                     $pseudo = $pseudo['usr_name'];
                     include '../views/inc/mail.php';
                     mail($recovery_mail, "Récupération de mot de passe", $message, $header);
-                    $app['session']->getFlashBag()->add('success', 'Un mail contenant le code de confirmation viens de vous être adressé.');
+                    $app['session']->getFlashBag()->add('success', 'Un mail contenant le code de confirmation vient de vous être adressé.');
                     return $app->redirect($app["url_generator"]->generate("recovery.confirm"));
                 } else {
                     $app['session']->getFlashBag()->add('error', 'Cette adresse mail n\'est pas enregistré.');

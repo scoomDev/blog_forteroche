@@ -1,6 +1,6 @@
 <?php
 $header = "MIME-Version: 1.0\r\n";
-$header .= 'From:"Billet simple pour l\'Alaska"<support@bloge-forteroche.com>'."\n";
+$header .= 'From:"Billet simple pour l\'Alaska"<contact@scoomdev.eu>'."\n";
 $header .= 'Content-Type:text/html; charset="utf8"'."\n";
 $header .= 'Content-Transfert-Encoding: 8bit';
 
